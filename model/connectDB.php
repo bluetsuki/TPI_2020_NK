@@ -1,4 +1,5 @@
 <?php
+require_once 'constDB.php';
 function getConnexion()
 {
      static $db = null;

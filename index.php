@@ -11,6 +11,7 @@ $permission = [
     "Nobody"=>[
         "default" => "login",
         "home" => "home",
+        "tpi" => "tabTPI",
     ],
     "Administrator" => [
         "default" => "login",

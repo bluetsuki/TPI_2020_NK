@@ -1,6 +1,6 @@
 <?php
 /**
-*
+* update the value by the name given
 * @param string name of the param
 * @param string value of the param
 */
