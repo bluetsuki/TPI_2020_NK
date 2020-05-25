@@ -3,9 +3,9 @@ session_start();
 $action = filter_input(INPUT_GET, "action", FILTER_SANITIZE_STRING);
 
 if(isset($_SESSION['role']))
-$role = $_SESSION['role'];
+    $role = $_SESSION['role'];
 else
-$role = "Nobody";
+    $role = "Nobody";
 
 $permission = [
     "Nobody"=>[
