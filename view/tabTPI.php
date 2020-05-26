@@ -29,9 +29,9 @@
 
 <body class="sb-nav-fixed">
     <?php require_once 'navH.php'; ?>
-    <?php require_once 'navV.php'; ?>
-
-    <div id="layoutSidenav_content">
+    <div id="layoutSidenav">
+        <?php require_once 'navV.php'; ?>
+        <div id="layoutSidenav_content">
         <main>
             <!-- Début du contenu de la page -->
             <div class="container-fluid">
@@ -123,12 +123,11 @@
         </main>
         <?php require_once 'footer.php' ?>
     </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="js/scripts.js"></script>
-<script src="js/tabOrder.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/tabOrder.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

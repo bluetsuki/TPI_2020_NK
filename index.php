@@ -16,6 +16,8 @@ $permission = [
         "default" => "login",
         "home" => "home",
         "tpi" => "tabTPI",
+        "slctTPI" => "selectTPI",
+        "logout" => "logout"
     ],
     "Administrator" => [
         "default" => "login",
@@ -28,13 +30,16 @@ $permission = [
     "Expert" => [
         "default" => "login",
         "home" => "home",
+        "tpi" => "tabTPI",
+        "slctTPI" => "selectTPI"
     ],
     "Manager" => [
         "default" => "login",
         "home" => "home",
+        "tpi" => "tabTPI",
+        "slctTPI" => "selectTPI"
     ]
 ];
-
 if (!array_key_exists($action, $permission[$role])) {
     $action = "default";
 }

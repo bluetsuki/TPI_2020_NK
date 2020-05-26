@@ -16,37 +16,36 @@
 
 <body class="sb-nav-fixed">
     <?php require_once 'navH.php'; ?>
-    <?php require_once 'navV.php'; ?>
-
-    <div id="layoutSidenav_content">
-        <main>
-            <!-- Début du contenu de la page -->
-            <div class="container-fluid">
-                <h1 class="mt-4">Collège d'Experts Informatique de Genève</h1>
-                <h2>Outil de collaboration et de gestion des TPIs </h2>
-                <p>Le but de cette application est de donner aux membres du collège d'experts en informatique
-                    du canton de Genève un outil leur permettant de gérer leur travail tout au long de l'année scolaire.
-                    Le développement a été confié a des élèves de l'école d'informatique, dans le cadre de leur TPI.
-                    Les modules développés initialement sont :</p>
-                    <ul>
-                        <li>L'administration des utilisateurs</li>
-                        <li>La rédaction des énoncés des TPIs</li>
-                        <li>La répartition des TPIs entre les experts</li>
-                        <li>La validation des énoncés</li>
-                        <li>L'évaluation des TPis</li>
-                    </ul>
-                    <p>Cette partie du développement concerne le module XXX, développé par NOM PRENOM</p>
-            </div>
-            <!-- fin du contenu de la page-->
-        </main>
-        <?php require_once 'footer.php' ?>
+    <div id="layoutSidenav">
+        <?php require_once 'navV.php'; ?>
+        <div id="layoutSidenav_content">
+            <main>
+                <!-- Début du contenu de la page -->
+                <div class="container-fluid">
+                    <h1 class="mt-4">Collège d'Experts Informatique de Genève</h1>
+                    <h2>Outil de collaboration et de gestion des TPIs </h2>
+                    <p>Le but de cette application est de donner aux membres du collège d'experts en informatique
+                        du canton de Genève un outil leur permettant de gérer leur travail tout au long de l'année scolaire.
+                        Le développement a été confié a des élèves de l'école d'informatique, dans le cadre de leur TPI.
+                        Les modules développés initialement sont :</p>
+                        <ul>
+                            <li>L'administration des utilisateurs</li>
+                            <li>La rédaction des énoncés des TPIs</li>
+                            <li>La répartition des TPIs entre les experts</li>
+                            <li>La validation des énoncés</li>
+                            <li>L'évaluation des TPis</li>
+                        </ul>
+                        <p>Cette partie du développement concerne le module XXX, développé par NOM PRENOM</p>
+                </div>
+                <!-- fin du contenu de la page-->
+            </main>
+            <?php require_once 'footer.php'; ?>
+        </div>
     </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="js/scripts.js"></script>
-<script src="js/tabOrder.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

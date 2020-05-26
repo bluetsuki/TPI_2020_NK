@@ -3,17 +3,17 @@
  * @author Nguyen Kelly
  * @version 1.0
  */
- 
+
 /**
 * Insert a wishe in the table wishes
 * @param int idExpert is the Id of the Expert assign to the TPI
 * @param int tpiId is the ID of the TPI
 * @param int assigned is the number max of expert assign to the TPI
 */
-function addWishe($idExpert, $tpiId, $assigned = null)
+function addWishe($idExpert, $tpiId)
 {
     $connexion = getConnexion();
-    $req = $connexion->prepare("INSERT INTO wishes (userExpertID, tpiID, assigned) VALUES (:expert, :tpiID, :assigned)");
+    $req = $connexion->prepare("INSERT INTO wishes (userExpertID, tpiID) VALUES (:expert, :tpiID)");
     $req->bindParam(":expert", $comment, PDO::PARAM_INT);
     $req->bindParam(":tpiID", $date, PDO::PARAM_INT);
     $req->bindParam(":assigned", $date, PDO::PARAM_INT);
