@@ -27,9 +27,9 @@ function getTPIs(){
     $sql = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName
     FROM tpis
     LEFT JOIN users AS uc ON userCandidateID = uc.userID
-    LEFT JOIN users AS um ON userCandidateID = um.userID
-    LEFT JOIN users AS ue1 ON userCandidateID = ue1.userID
-    LEFT JOIN users AS ue2 ON userCandidateID = ue2.userID";
+    LEFT JOIN users AS um ON userManagerID = um.userID
+    LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID
+    LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID";
     $req = $tpi->prepare($sql);
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);

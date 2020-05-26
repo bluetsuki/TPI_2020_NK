@@ -4,28 +4,28 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <!-- Menu secondaire (qui reprend le menu principal...) -->
-                    <a class="nav-link" href="home.php">A propos</a>
+                    <a class="nav-link" href="?action=home">A propos</a>
 
                     <div class="sb-sidenav-menu-heading">Module 1</div>
-                    <a class="nav-link" href="home.php">Page/Action 1</a>
-                    <a class="nav-link" href="home.php">Page/Action 2</a>
-                    <a class="nav-link" href="home.php">Page/Action 3</a>
-                    <a class="nav-link" href="home.php">Page/Action 4</a>
+                    <a class="nav-link" href="?action=tpi">Tableau TPI</a>
+                    <a class="nav-link" href="?action=home">Page/Action 2</a>
+                    <a class="nav-link" href="?action=home">Page/Action 3</a>
+                    <a class="nav-link" href="?action=home">Page/Action 4</a>
                     <div class="sb-sidenav-menu-heading">Module 2</div>
-                    <a class="nav-link" href="home.php">Page/Action 1</a>
-                    <a class="nav-link" href="home.php">Page/Action 2</a>
-                    <a class="nav-link" href="home.php">Page/Action 3</a>
-                    <a class="nav-link" href="home.php">Page/Action 4</a>
+                    <a class="nav-link" href="?action=home">Page/Action 1</a>
+                    <a class="nav-link" href="?action=home">Page/Action 2</a>
+                    <a class="nav-link" href="?action=home">Page/Action 3</a>
+                    <a class="nav-link" href="?action=home">Page/Action 4</a>
                     <div class="sb-sidenav-menu-heading">Module 3</div>
-                    <a class="nav-link" href="home.php">Page/Action 1</a>
-                    <a class="nav-link" href="home.php">Page/Action 2</a>
-                    <a class="nav-link" href="home.php">Page/Action 3</a>
-                    <a class="nav-link" href="home.php">Page/Action 4</a>
+                    <a class="nav-link" href="?action=home">Page/Action 1</a>
+                    <a class="nav-link" href="?action=home">Page/Action 2</a>
+                    <a class="nav-link" href="?action=home">Page/Action 3</a>
+                    <a class="nav-link" href="?action=home">Page/Action 4</a>
                     <div class="sb-sidenav-menu-heading">Module 4</div>
-                    <a class="nav-link" href="home.php">Page/Action 1</a>
-                    <a class="nav-link" href="home.php">Page/Action 2</a>
-                    <a class="nav-link" href="home.php">Page/Action 3</a>
-                    <a class="nav-link" href="home.php">Page/Action 4</a>
+                    <a class="nav-link" href="?action=home">Page/Action 1</a>
+                    <a class="nav-link" href="?action=home">Page/Action 2</a>
+                    <a class="nav-link" href="?action=home">Page/Action 3</a>
+                    <a class="nav-link" href="?action=home">Page/Action 4</a>
                     <!-- Fin du menu secondaire -->
                 </div>
             </div>
