@@ -1,11 +1,16 @@
 <?php
+/**
+ * @author Nguyen Kelly
+ * @version 1.0
+ */
+
 require_once 'connectDB.php';
 /**
 * update the value by the name given
 * @param string name of the param
 * @param string value of the param
 */
-function updParam($tpiId, $expert1 = null, $expert2 = null) {
+function updTPI($tpiId, $expert1 = null, $expert2 = null) {
     $upd = getConnexion();
     $req = $upd->prepare("UPDATE params SET userExpert1ID = :expert1, userExpert2ID = :expert2 WHERE tpiID = :tpiID");
     $req->bindParam(":tpiID", $tpiId, PDO::PARAM_STR);
@@ -17,9 +22,15 @@ function updParam($tpiId, $expert1 = null, $expert2 = null) {
 /**
 * get all TPIs
 */
-function getTpi(){
+function getTPIs(){
     $tpi = getConnexion();
-    $req = $tpi->prepare("SELECT ( SELECT lastName FROM users WHERE userID = tpis.userCandidateID ) as 'Name', ( SELECT firstName FROM users WHERE userID = tpis.userCandidateID ) as 'firstName', ( SELECT companyName FROM users WHERE userID = tpis.userCandidateID ) as 'companyName', ( SELECT lastName FROM users WHERE userID = tpis.userManagerID ) as 'projectManager', sessionStart, sessionEnd, title, cfcDomain, ( SELECT lastName from users WHERE userID = tpis.userExpert1ID) as 'expert1', ( SELECT lastName from users WHERE userID = tpis.userExpert2ID) as 'expert2' FROM `tpis`, users");
+    $sql = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName
+    FROM tpis
+    LEFT JOIN users AS uc ON userCandidateID = uc.userID
+    LEFT JOIN users AS um ON userCandidateID = um.userID
+    LEFT JOIN users AS ue1 ON userCandidateID = ue1.userID
+    LEFT JOIN users AS ue2 ON userCandidateID = ue2.userID";
+    $req = $tpi->prepare($sql);
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);
 }

@@ -1,5 +1,14 @@
 <?php
+/**
+ * @author Nguyen Kelly
+ * @version 1.0
+ */
+
 require_once 'constDB.php';
+/**
+* Do the connection to the database
+* @return PDO connection of the database
+*/
 function getConnexion()
 {
      static $db = null;

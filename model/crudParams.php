@@ -1,5 +1,10 @@
 <?php
 /**
+ * @author Nguyen Kelly
+ * @version 1.0
+ */
+
+/**
 * update the value by the name given
 * @param string name of the param
 * @param string value of the param

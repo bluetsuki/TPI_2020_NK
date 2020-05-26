@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Nguyen Kelly
+ * @version 1.0
+ */
 session_start();
 $action = filter_input(INPUT_GET, "action", FILTER_SANITIZE_STRING);
 

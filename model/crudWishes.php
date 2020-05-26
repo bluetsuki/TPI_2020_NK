@@ -1,5 +1,10 @@
 <?php
 /**
+ * @author Nguyen Kelly
+ * @version 1.0
+ */
+ 
+/**
 * Insert a wishe in the table wishes
 * @param int idExpert is the Id of the Expert assign to the TPI
 * @param int tpiId is the ID of the TPI
