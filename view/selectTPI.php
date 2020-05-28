@@ -59,7 +59,7 @@
                                     echo $name['expertLastName'] . ' ' . $name['expertFirstName'] . '<br>';
                                 }
                                 echo '</td>';
-                                if ($nbExpert < 4) {
+                                if ($nbExpert < getParamsByName('NbMaxExpertForOneCandidate')[0]['value']) {
                                     echo '<td><a href="?action=selectTPI&pdf=false&by=277&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a></td>';
                                 }else{
                                     echo '<td><button class="btn btn-secondary" disabled>Choisir</button></td>';

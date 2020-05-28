@@ -56,7 +56,7 @@ function getWishesByIdExpert($id){
 * @param string name of the param
 * @param string value of the param
 */
-function updParam($idExpert, $tpi, $assigned = null) {
+function updWishe($idExpert, $tpi, $assigned = null) {
     $upd = getConnexion();
     $req = $upd->prepare("UPDATE wishes SET userExpertID = :expert, assigned = :assigned WHERE tpiID = :tpi");
     $req->bindParam(":expert", $idExpert, PDO::PARAM_INT);

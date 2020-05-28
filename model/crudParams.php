@@ -26,3 +26,15 @@ function getParams() {
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);
 }
+
+/**
+* get the param by the name
+* @param string name of the value
+*/
+function getParamsByName($name) {
+    $upd = getConnexion();
+    $req = $upd->prepare("SELECT value FROM params WHERE name = :name");
+    $req->bindParam(':name', $name, PDO::PARAM_STR);
+    $req->execute();
+    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
+}
