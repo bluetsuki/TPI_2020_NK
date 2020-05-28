@@ -49,11 +49,11 @@
                             echo '<td>' . $value['managerLastName'] . ' ' . $value['managerFirstName'] . '</td>';
                             echo '<td>' . $value['sessionStart'] . '</td>';
                             echo '<td>' . $value['sessionEnd'] . '</td>';
-                            echo '<td>' . $value['title'] . '</td>';
+                            echo '<td><a href="?action=selectTPI&pdf=true&idTPI=' . $value['tpiID'] . '">' . $value['title'] . '</a></td>';
                             echo '<td>' . $value['cfcDomain'] . '</td>';
                             echo '<td>' . $value['expert1LastName'] . ' ' . $value['expert2FirstName'] . '</td>';
                             echo '<td>' . $value['expert2LastName'] . ' ' . $value['expert2FirstName'] . '</td>';
-                            echo '<td><a href="?action=slctTPI&by=224&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a></td></tr>';
+                            echo '<td><a href="?action=slctTPI&pdf=falseby=224&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a></td></tr>';
                         }
                         ?>
                     </tbody>

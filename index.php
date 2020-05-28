@@ -16,8 +16,9 @@ $permission = [
         "default" => "login",
         "home" => "home",
         "tpi" => "tabTPI",
-        "slctTPI" => "selectTPI",
-        "logout" => "logout"
+        "selectTPI" => "selectTPI",
+        "logout" => "logout",
+        "formParams" => "formParams",
     ],
     "Administrator" => [
         "default" => "login",
@@ -25,7 +26,6 @@ $permission = [
     ],
     "Candidate" => [
         "default" => "login",
-        "home" => "home",
     ],
     "Expert" => [
         "default" => "login",

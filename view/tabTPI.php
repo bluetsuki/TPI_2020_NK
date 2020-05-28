@@ -62,7 +62,7 @@
                     <tbody id="dataContainer">
                         <?php
                         foreach (getTPIs() as $key => $value) {
-                            echo '<tr><th scope="row">' . $key . '</th>';
+                            echo '<tr><th scope="row">' . $value['tpiID'] . '</th>';
                             echo '<td>' . $value['candidateLastName'] . '</td>';
                             echo '<td>' . $value['candidateFirstName'] . '</td>';
                             echo '<td>' . $value['companyName'] . '</td>';

@@ -37,3 +37,14 @@ function getRole($id){
     $req->execute();
     return $req->fetchAll(PDO::FETCH_ASSOC);
 }
+
+/**
+ *
+*/
+function getUserRights($id){
+    $role = getConnexion();
+    $req = $role->prepare("SELECT * FROM user_rights WHERE userID = :id");
+    $req->bindParam(':id', $id, PDO::PARAM_STR);
+    $req->execute();
+    return $req->fetchAll(PDO::FETCH_ASSOC);
+}

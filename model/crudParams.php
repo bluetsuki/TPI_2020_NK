@@ -12,7 +12,17 @@
 function updParam($name, $value) {
     $upd = getConnexion();
     $req = $upd->prepare("UPDATE params SET value = :value WHERE name = :name");
-    $req->bindParam(":name", $id, PDO::PARAM_STR);
-    $req->bindParam(":value", $id, PDO::PARAM_STR);
+    $req->bindParam(":name", $name, PDO::PARAM_STR);
+    $req->bindParam(":value", $value, PDO::PARAM_STR);
     $req->execute();
+}
+
+/**
+* get all the params
+*/
+function getParams() {
+    $upd = getConnexion();
+    $req = $upd->prepare("SELECT name, value FROM params");
+    $req->execute();
+    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
 }
