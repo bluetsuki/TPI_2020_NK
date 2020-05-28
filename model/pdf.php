@@ -226,8 +226,8 @@ table.page_header {
 PDF;
             // BOUCLE SUR LES CRITERES DE VALIDATION
 foreach ($criterions as $key => $value) {
-    $html .= '<tr><td width="500">'. $value['criterionGroup'] . ' ' . $value['criterionNumber'] . ' ' . $value['criterionDescription'] .'</td>';
-    $html .= '<td width="100">OUI_NON_N/A</td></tr>';
+    $html .= '<tr><td width="500">' . $value['criterionDescription'] .'</td>';
+    $html .= '<td width="100"> NON </td></tr>';
 }
 
 $html .= <<<PDF
@@ -246,9 +246,9 @@ $html .= <<<PDF
         <tbody>
             <tr>
                 <td width="640">
-                    $expert1LastName $expert1FirstName : Validé le JJ MMMM AAAA à HH:MM / Pas validé
+                    $expert1LastName $expert1FirstName : $expert1Valid
                     <br>
-                    $expert2LastName $expert2FirstName : Validé le JJ MMMM AAAA à HH:MM / Pas validé
+                    $expert2LastName $expert2FirstName : $expert2Valid
                 </td>
             </tr>
         </tbody>

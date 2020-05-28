@@ -59,7 +59,7 @@ function getTPIInfoCandidate($id){
 */
 function getCriterion($id){
     $tpi = getConnexion();
-    $req = $tpi->prepare("SELECT * FROM `evaluation_criterions` WHERE tpiID = :id");
+    $req = $tpi->prepare("SELECT criterionDescription FROM `evaluation_criterions` WHERE tpiID = :id");
     $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);
@@ -71,9 +71,21 @@ function getCriterion($id){
 */
 function getTPIValidation($id){
     $tpi = getConnexion();
-    $req = $tpi->prepare("SELECT * FROM `tpi_evaluations_criterions` AS tec LEFT JOIN evaluation_criterions AS ec ON tec.evaluationCriterionID = ec.evaluationCriterionID WHERE tec.tpiID = :id ");
+    $req = $tpi->prepare("SELECT * FROM `tpi_validations` AS tec LEFT JOIN evaluation_criterions AS ec ON tec.evaluationCriterionID = ec.evaluationCriterionID WHERE tec.tpiID = :id");
     $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);
 
+}
+
+/**
+* get TPI signature by it ID
+* @param int id of the TPI
+*/
+function getSignExpert($id){
+    $tpi = getConnexion();
+    $req = $tpi->prepare("SELECT expert1Signature, expert2Signature FROM tpi_evaluations WHERE tpiID = :id");
+    $req->bindParam(':id', $id, PDO::PARAM_INT);
+    $req->execute();
+    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
 }

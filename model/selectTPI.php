@@ -7,9 +7,26 @@ $pdf = FILTER_INPUT(INPUT_GET, 'pdf', FILTER_SANITIZE_STRING);
 if ($pdf) {
     $tpiInfo = getTPIInfoCandidate($tpiChoosen);
     $criterions = getCriterion($tpiChoosen);
+    $sign = getSignExpert($tpiChoosen);
 
+    if (!empty($sign)) {
+        $expert1Sign = explode(' ', $sign[0]['expert1Signature']);
+        $expert2Sign = explode(' ', $sign[0]['expert2Signature']);
+        $expert1SignDate = $expert1Sign[0];
+        $expert2SignDate = $expert1Sign[0];
+
+        $expert1HourSign = explode(':', $expert1Sign[1])[0] . ':' . explode(':', $expert1Sign[1])[1];
+        $expert2HourSign = explode(':', $expert2Sign[1])[0] . ':' . explode(':', $expert2Sign[1])[1];
+
+        $expert1Valid = "Validé le $expert1SignDate à $expert1HourSign";
+        $expert2Valid = "Validé le $expert2SignDate à $expert2HourSign";
+    }else{
+        $expert1Valid = "Pas validé";
+        $expert2Valid = "Pas validé";
+    }
+
+    // $tpiValidation = getTPIValidation($tpiChoosen);
     $year = $tpiInfo[0]['year'];
-
     $title = $tpiInfo[0]['title'];
     $domain = $tpiInfo[0]['cfcDomain'];
     $dateStart = explode(' ', $tpiInfo[0]['sessionStart']);
@@ -33,5 +50,17 @@ if ($pdf) {
     $managerPhone = $tpiInfo[0]['managerPhone'];
     $managerMail = $tpiInfo[0]['managerMail'];
 
-    require_once 'tpiPDF.php';
+
+
+    $expert1LastName = $tpiInfo[0]['expert1LastName'];
+    $expert1FirstName = $tpiInfo[0]['expert1FirstName'];
+    $expert1Phone = $tpiInfo[0]['expert1Phone'];
+    $expert1Mail = $tpiInfo[0]['expert1Mail'];
+
+    $expert2LastName = $tpiInfo[0]['expert2LastName'];
+    $expert2FirstName = $tpiInfo[0]['expert2FirstName'];
+    $expert2Phone = $tpiInfo[0]['expert2Phone'];
+    $expert2Mail = $tpiInfo[0]['expert2Mail'];
+
+    require_once 'pdf.php';
 }
