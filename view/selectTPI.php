@@ -19,56 +19,67 @@
     <div id="layoutSidenav">
         <?php require_once 'navV.php'; ?>
         <div id="layoutSidenav_content">
-        <main>
-            <!-- Début du contenu de la page -->
-            <div class="container-fluid">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nom</th>
-                            <th scope="col">Prénom</th>
-                            <th scope="col">Entreprise</th>
-                            <th scope="col">Chef de projet</th>
-                            <th scope="col">Date de début</th>
-                            <th scope="col">Date de fin</th>
-                            <th scope="col">Titre</th>
-                            <th scope="col">Domaine</th>
-                            <th scope="col">Expert 1</th>
-                            <th scope="col">Expert 2</th>
-                            <th scope="col">Choisir</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        foreach (getTPIsWOExpert() as $key => $value) {
-                            echo '<tr><th scope="row">' . $value['tpiID'] . '</th>';
-                            echo '<td>' . $value['candidateLastName'] . '</td>';
-                            echo '<td>' . $value['candidateFirstName'] . '</td>';
-                            echo '<td>' . $value['companyName'] . '</td>';
-                            echo '<td>' . $value['managerLastName'] . ' ' . $value['managerFirstName'] . '</td>';
-                            echo '<td>' . $value['sessionStart'] . '</td>';
-                            echo '<td>' . $value['sessionEnd'] . '</td>';
-                            echo '<td><a href="?action=selectTPI&pdf=true&idTPI=' . $value['tpiID'] . '">' . $value['title'] . '</a></td>';
-                            echo '<td>' . $value['cfcDomain'] . '</td>';
-                            echo '<td>' . $value['expert1LastName'] . ' ' . $value['expert2FirstName'] . '</td>';
-                            echo '<td>' . $value['expert2LastName'] . ' ' . $value['expert2FirstName'] . '</td>';
-                            echo '<td><a href="?action=slctTPI&pdf=falseby=224&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a></td></tr>';
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-            <!-- fin du contenu de la page-->
-        </main>
-        <?php require_once 'footer.php' ?>
+            <main>
+                <!-- Début du contenu de la page -->
+                <div class="container-fluid">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Prénom</th>
+                                <th scope="col">Entreprise</th>
+                                <th scope="col">Chef de projet</th>
+                                <th scope="col">Date de début</th>
+                                <th scope="col">Date de fin</th>
+                                <th scope="col">Titre</th>
+                                <th scope="col">Domaine</th>
+                                <th scope="col">Souhait Experts</th>
+                                <th scope="col">Choisir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            //id of expert 277 261 281 278
+                            $nbExpert = 0;
+                            foreach (getTPIsWOExpert() as $value) {
+                                echo '<tr><th scope="row">' . $value['tpiID'] . '</th>';
+                                echo '<td>' . $value['candidateLastName'] . '</td>';
+                                echo '<td>' . $value['candidateFirstName'] . '</td>';
+                                echo '<td>' . $value['companyName'] . '</td>';
+                                echo '<td>' . $value['managerLastName'] . ' ' . $value['managerFirstName'] . '</td>';
+                                echo '<td>' . $value['sessionStart'] . '</td>';
+                                echo '<td>' . $value['sessionEnd'] . '</td>';
+                                echo '<td><a href="pdf/Enonce_TPI_'. $value['year'] .'_'. $value['tpiID'] .'_'. $value['candidateLastName'] .'_'. $value['candidateFirstName'] .'.pdf">' . $value['title'] . '</a></td>';
+                                echo '<td>' . $value['cfcDomain'] . '</td>';
+                                echo '<td>';
+                                $names = getWishesByIdExpert($value['tpiID']);
+                                $nbExpert = count($names);
+                                foreach ($names as $name) {
+                                    echo $name['expertLastName'] . ' ' . $name['expertFirstName'] . '<br>';
+                                }
+                                echo '</td>';
+                                if ($nbExpert < 4) {
+                                    echo '<td><a href="?action=selectTPI&pdf=false&by=277&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a></td>';
+                                }else{
+                                    echo '<td><button class="btn btn-secondary" disabled>Choisir</button></td>';
+                                }
+                                echo '</tr>';
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- fin du contenu de la page-->
+            </main>
+            <?php require_once 'footer.php' ?>
+        </div>
     </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="js/scripts.js"></script>
-<script src="js/tabOrder.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/tabOrder.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

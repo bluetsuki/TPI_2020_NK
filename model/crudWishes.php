@@ -8,16 +8,20 @@
 * Insert a wishe in the table wishes
 * @param int idExpert is the Id of the Expert assign to the TPI
 * @param int tpiId is the ID of the TPI
-* @param int assigned is the number max of expert assign to the TPI
 */
 function addWishe($idExpert, $tpiId)
 {
-    $connexion = getConnexion();
-    $req = $connexion->prepare("INSERT INTO wishes (userExpertID, tpiID) VALUES (:expert, :tpiID)");
-    $req->bindParam(":expert", $comment, PDO::PARAM_INT);
-    $req->bindParam(":tpiID", $date, PDO::PARAM_INT);
-    $req->bindParam(":assigned", $date, PDO::PARAM_INT);
-    return $req->execute();
+    try {
+        $connexion = getConnexion();
+        $req = $connexion->prepare("INSERT INTO wishes (userExpertID, tpiID) VALUES (:expert, :tpiID)");
+        $req->bindParam(":expert", $idExpert, PDO::PARAM_INT);
+        $req->bindParam(":tpiID", $tpiId, PDO::PARAM_INT);
+        $req->execute();
+        // return $req->debugDumpParams();
+    } catch (\Exception $e) {
+        return $e;
+    }
+
 }
 
 /**
@@ -32,11 +36,17 @@ function rmMedia($id){
 }
 
 /**
-* get all wishes
+* get all wishes of the TPI by it ID
+* @param int id of the TPI
 */
-function getWishes(){
+function getWishesByIdExpert($id){
     $wishes = getConnexion();
-    $req = $wishes->prepare("SELECT userExpertID, tpiID, assigned FROM wishes");
+    $req = $wishes->prepare("SELECT lastName as expertLastName, firstName as expertFirstName, `tpiID`, assigned
+        FROM `wishes` AS w
+        LEFT JOIN users AS ue1 ON w.userExpertID = ue1.userID
+        WHERE assigned IS NULL
+        AND tpiID = :id");
+    $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);
 }

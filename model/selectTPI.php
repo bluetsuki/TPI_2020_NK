@@ -1,29 +1,16 @@
 <?php
-$tpiChoosen = FILTER_INPUT(INPUT_GET, 'idTPI', FILTER_SANITIZE_STRING);
 $by = FILTER_INPUT(INPUT_GET, 'by', FILTER_SANITIZE_STRING);
+$tpiChoosen = FILTER_INPUT(INPUT_GET, 'idTPI', FILTER_SANITIZE_STRING);
 $pdf = FILTER_INPUT(INPUT_GET, 'pdf', FILTER_SANITIZE_STRING);
 
-// addWishe($by, $tpiChoosen);
-if ($pdf) {
+if (is_numeric($by) && is_numeric($tpiChoosen)) {
+    addWishe($by, $tpiChoosen);
+}
+
+if ($pdf == 'true') {
     $tpiInfo = getTPIInfoCandidate($tpiChoosen);
     $criterions = getCriterion($tpiChoosen);
     $sign = getSignExpert($tpiChoosen);
-
-    if (!empty($sign)) {
-        $expert1Sign = explode(' ', $sign[0]['expert1Signature']);
-        $expert2Sign = explode(' ', $sign[0]['expert2Signature']);
-        $expert1SignDate = $expert1Sign[0];
-        $expert2SignDate = $expert1Sign[0];
-
-        $expert1HourSign = explode(':', $expert1Sign[1])[0] . ':' . explode(':', $expert1Sign[1])[1];
-        $expert2HourSign = explode(':', $expert2Sign[1])[0] . ':' . explode(':', $expert2Sign[1])[1];
-
-        $expert1Valid = "Validé le $expert1SignDate à $expert1HourSign";
-        $expert2Valid = "Validé le $expert2SignDate à $expert2HourSign";
-    }else{
-        $expert1Valid = "Pas validé";
-        $expert2Valid = "Pas validé";
-    }
 
     // $tpiValidation = getTPIValidation($tpiChoosen);
     $year = $tpiInfo[0]['year'];
@@ -61,6 +48,26 @@ if ($pdf) {
     $expert2FirstName = $tpiInfo[0]['expert2FirstName'];
     $expert2Phone = $tpiInfo[0]['expert2Phone'];
     $expert2Mail = $tpiInfo[0]['expert2Mail'];
+
+    if ($sign[0]['expert1Signature'] != NULL) {
+        $expert1Sign = explode(' ', $sign[0]['expert1Signature']);
+        $expert1SignDate = $expert1Sign[0];
+        $expert1HourSign = explode(':', $expert1Sign[1])[0] . ':' . explode(':', $expert1Sign[1])[1];
+        $expert1Valid = "$expert1LastName $expert1FirstName : Validé le $expert1SignDate à $expert1HourSign";
+
+    }else{
+        $expert1Valid = "Pas validé";
+    }
+
+    if ($sign[0]['expert2Signature'] != NULL) {
+        $expert2Sign = explode(' ', $sign[0]['expert2Signature']);
+        $expert2SignDate = $expert1Sign[0];
+        $expert2HourSign = explode(':', $expert2Sign[1])[0] . ':' . explode(':', $expert2Sign[1])[1];
+        $expert2Valid = "$expert2LastName $expert2FirstName : Validé le $expert2SignDate à $expert2HourSign";
+
+    }else{
+        $expert2Valid = "Pas validé";
+    }
 
     require_once 'pdf.php';
 }

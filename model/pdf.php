@@ -224,7 +224,7 @@ table.page_header {
         </thead>
         <tbody>
 PDF;
-            // BOUCLE SUR LES CRITERES DE VALIDATION
+
 foreach ($criterions as $key => $value) {
     $html .= '<tr><td width="500">' . $value['criterionDescription'] .'</td>';
     $html .= '<td width="100"> NON </td></tr>';
@@ -246,9 +246,9 @@ $html .= <<<PDF
         <tbody>
             <tr>
                 <td width="640">
-                    $expert1LastName $expert1FirstName : $expert1Valid
+                    $expert1Valid
                     <br>
-                    $expert2LastName $expert2FirstName : $expert2Valid
+                    $expert2Valid
                 </td>
             </tr>
         </tbody>
