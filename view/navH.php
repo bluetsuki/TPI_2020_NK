@@ -13,10 +13,10 @@
                 <a class="nav-link" href="#">A propos <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Module 1</a>
+                <a class="nav-link" href="?action=selectTPI">Répartion</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Module 2</a>
+                <a class="nav-link" href="#">Validation</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Module 3</a>

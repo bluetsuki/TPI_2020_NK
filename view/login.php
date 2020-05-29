@@ -28,6 +28,7 @@
                                         <div class="form-group">
                                             <label class="small mb-1" for="inputPassword">Mot de passe</label>
                                             <input class="form-control py-4" id="inputPassword" name="inputPassword" type="password" placeholder="Saisissez votre mot de passe" />
+                                            <small><?= $error ?></small>
                                         </div>
                                         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0"><button class="btn btn-primary" name="send" type="submit" value="send">Login</button></div>
                                     </form>

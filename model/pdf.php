@@ -1,6 +1,6 @@
 <?php
 require_once('tcpdf/tcpdf_include.php');
-require_once('selectTPI.php');
+require_once('validationTPI.php');
 
 $validation_criterions = array(
     "Le nombre d'heures estimés est en accord avec le règlement. (70-90 heures)",
@@ -242,9 +242,9 @@ table.page_header {
         <tbody>
 PDF;
 
-foreach ($validation_criterions as $key => $value) {
-    // $html .= '<tr><td width="500">' . $value['criterionDescription'] .'</td>';
-    // $html .= '<td width="100"> NON </td></tr>';
+foreach ($validation_criterions as $key) {
+    $html .= '<tr><td width="500">' . $key .'</td>';
+    $html .= '<td width="100"> NON </td></tr>';
 }
 
 $html .= <<<PDF

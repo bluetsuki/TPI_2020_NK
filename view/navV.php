@@ -1,12 +1,14 @@
 <?php
 
-$pagesName_byRight = [
-    "selectTPI" => "Tableau TPI",
-    "validateTPIs" => "Valider des TPI",
-    "editValidation" => "Formulaire Admin",
-    "editParam" => "Tableau TPI",
-    "displayValidationTPI" => "Afficher les TPI",
-    "displayValidationTPIManager" => "Afficher les TPI",
+$pagesName_distribution_byRight = [
+    "displayTPI" => "Tableau TPI",
+    "editParam" => "Formulaire Admin",
+];
+
+$pagesName_validation_byRight = [
+    "editValidation" => "Formulaire de Validation",
+    "displayValidationTPI" => "Afficher les Validations",
+    "displayValidationTPIManager" => "Afficher les Validations",
 ];
 
 ?>
@@ -20,17 +22,20 @@ $pagesName_byRight = [
 
                 <div class="sb-sidenav-menu-heading">Répartition TPI</div>
                 <?php
-                foreach ($pagesName_byRight as $key => $value) {
+                foreach ($pagesName_distribution_byRight as $key => $value) {
                     if (in_array($key, $_SESSION['rights'][0])) {
                         echo '<a class="nav-link" href="?action=' . $key . '">' . $value . '</a>';
                     }
                 }
                 ?>
-                <div class="sb-sidenav-menu-heading">Module 2</div>
-                <a class="nav-link" href="home.php">Page/Action 1</a>
-                <a class="nav-link" href="home.php">Page/Action 2</a>
-                <a class="nav-link" href="home.php">Page/Action 3</a>
-                <a class="nav-link" href="home.php">Page/Action 4</a>
+                <div class="sb-sidenav-menu-heading">Validation</div>
+                <?php
+                foreach ($pagesName_validation_byRight as $key => $value) {
+                    if (in_array($key, $_SESSION['rights'][0])) {
+                        echo '<a class="nav-link" href="?action=' . $key . '">' . $value . '</a>';
+                    }
+                }
+                ?>
                 <div class="sb-sidenav-menu-heading">Module 3</div>
                 <a class="nav-link" href="home.php">Page/Action 1</a>
                 <a class="nav-link" href="home.php">Page/Action 2</a>
@@ -46,8 +51,8 @@ $pagesName_byRight = [
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Connecté en tant que:</div>
-            <?= strtoupper($_SESSION['name']) ?> <br>
-            <?php foreach($_SESSION["roles"][0] as $r) echo strtoupper($r) . ' '; ?>
+            <?= $_SESSION['name'] ?> <br>
+            <?php foreach($_SESSION["roles"][0] as $r) echo $r . ' '; ?>
         </div>
     </nav>
 </div>

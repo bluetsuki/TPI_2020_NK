@@ -2,12 +2,16 @@
 require_once 'connectDB.php';
 
 $btn = FILTER_INPUT(INPUT_POST, 'send', FILTER_SANITIZE_STRING);
+$error = '';
 if ($btn == 'send') {
     $email = FILTER_INPUT(INPUT_POST, 'inputEmailAddress', FILTER_SANITIZE_STRING);
     $pwd = FILTER_INPUT(INPUT_POST, 'inputPassword', FILTER_SANITIZE_STRING);
+
     if (login($email, $pwd)) {
         header('Location: ?action=home');
         exit;
+    }else{
+        $error = '<small class="form-text text-danger">Vos identifiants sont incorrects</small>';
     }
 }
 
@@ -22,6 +26,11 @@ function login($email, $pwd){
     $req->bindParam(':email', $email, PDO::PARAM_STR);
     $req->execute();
     $res = $req->fetchAll(PDO::FETCH_ASSOC);
+    //return false if the email is invalid
+    if (empty($res)) {
+        return false;
+    }
+
     if ($res[0]['pwdHash'] == SHA1($pwd . $res[0]['pwdSalt'])) {
 
         $_SESSION['roles'] = getRole($res[0]['userID']);

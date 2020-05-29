@@ -120,7 +120,7 @@ foreach ($res as $key => $value) {
             echo '<a href="?action=selectTPI&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a>';
         }
         if (in_array('Administrator', $_SESSION['roles'][0])){
-            echo '<a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir Expert</button></a>';
+            echo '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir Expert</button></a>';
         }
         echo '</td>';
     }else{
@@ -129,7 +129,7 @@ foreach ($res as $key => $value) {
             echo '<button class="btn btn-secondary" disabled>Choisir</button>';
         }
         if (in_array('Administrator', $_SESSION['roles'][0])){
-            echo '<a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-secondary">Choisir Expert</button></a>';
+            echo '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-secondary">Choisir Expert</button></a>';
         }
         echo '</td>';
     }
