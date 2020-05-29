@@ -24,7 +24,7 @@ function getParams() {
     $upd = getConnexion();
     $req = $upd->prepare("SELECT name, value FROM params");
     $req->execute();
-    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
+    return $res = $req->fetchAll(PDO::FETCH_KEY_PAIR);
 }
 
 /**

@@ -35,7 +35,7 @@
                             <li>La validation des énoncés</li>
                             <li>L'évaluation des TPis</li>
                         </ul>
-                        <p>Cette partie du développement concerne le module XXX, développé par NOM PRENOM</p>
+                        <p>Cette partie du développement concerne le module de répartition et validation, développé par NGUYEN KELLY</p>
                 </div>
                 <!-- fin du contenu de la page-->
             </main>

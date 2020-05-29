@@ -2,6 +2,23 @@
 require_once('tcpdf/tcpdf_include.php');
 require_once('selectTPI.php');
 
+$validation_criterions = array(
+    "Le nombre d'heures estimés est en accord avec le règlement. (70-90 heures)",
+    "L'énoncé est entièrement rédigé par le supérieur du candidat.",
+    "L'énoncé comprend uniquement des éléments connus du candidat. (Pas de travail de recherche)",
+    "L'énoncé correspond à l'éventail normal des tâches de cette place de travail.",
+    "L'énoncé décrit clairement et sans équivoque les éléments vérifiables et de contrôle.",
+    "L'énoncé ne laisse pas de possibilité à interprétation du travail final. (Pas de phrase au conditionnel)",
+    "L'énoncé décrit clairement les buts à atteindre dans le travail final.",
+    "L'aspect capital de l'énoncé fait partie du domaine professionnel selon le règlement.",
+    "L'énoncé est soluble par un collaborateur de qualification moyenne.",
+    "Le travail est exécutable individuellement. Si c'est un travail de groupe, les tâches de chaque membre sont clairement définies.",
+    "Le travail de comprend pas de production de série (de manière à atteinder le minimum d'heures obligatoire).",
+    "Les questions A14-A20 sont remplies.",
+    "Les questions A14-A20 sont différentes des questions de la grille d'évaluation.",
+    "Le supérieur et le candidat sont préparé à cet examen"
+);
+
 // Extend the TCPDF class to create custom Header and Footer
 class MYPDF extends TCPDF {
 
@@ -225,9 +242,9 @@ table.page_header {
         <tbody>
 PDF;
 
-foreach ($criterions as $key => $value) {
-    $html .= '<tr><td width="500">' . $value['criterionDescription'] .'</td>';
-    $html .= '<td width="100"> NON </td></tr>';
+foreach ($validation_criterions as $key => $value) {
+    // $html .= '<tr><td width="500">' . $value['criterionDescription'] .'</td>';
+    // $html .= '<td width="100"> NON </td></tr>';
 }
 
 $html .= <<<PDF

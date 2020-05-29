@@ -12,7 +12,7 @@ require_once 'connectDB.php';
 */
 function updTPI($tpiId, $expert1 = null, $expert2 = null) {
     $upd = getConnexion();
-    $req = $upd->prepare("UPDATE tpis SET userExpert1ID = :expert1, userExpert2ID = :expert2 WHERE tpiID = :tpiID");
+    $req = $upd->prepare("UPDATE `tpis` SET `userExpert1ID` = :expert1, `userExpert2ID` = :expert2 WHERE `tpis`.`tpiID` = :tpiID");
     $req->bindParam(":tpiID", $tpiId, PDO::PARAM_STR);
     $req->bindParam(":expert1", $expert1, PDO::PARAM_INT);
     $req->bindParam(":expert2", $expert2, PDO::PARAM_INT);
@@ -24,7 +24,7 @@ function updTPI($tpiId, $expert1 = null, $expert2 = null) {
 */
 function getTPIs(){
     $tpi = getConnexion();
-    $sql = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE year = YEAR(CURDATE())";
+    $sql = "SELECT tpiID, pdfPath, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE year = YEAR(CURDATE())";
     $req = $tpi->prepare($sql);
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);
@@ -35,8 +35,20 @@ function getTPIs(){
 */
 function getTPIsWOExpert(){
     $tpi = getConnexion();
-    $sql = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE userExpert1ID IS NULL OR userExpert2ID IS NULL";
+    $sql = "SELECT tpiID, year, pdfPath, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE userExpert1ID IS NULL OR userExpert2ID IS NULL";
     $req = $tpi->prepare($sql);
+    $req->execute();
+    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+* get all TPIs that haven't got experts by id
+*/
+function getTPIsById($id){
+    $tpi = getConnexion();
+    $sql = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, pdfPath, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE tpiID = :id";
+    $req = $tpi->prepare($sql);
+    $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -49,17 +61,6 @@ function getTPIInfoCandidate($id){
     $tpi = getConnexion();
     $sql = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName, um.companyName as managerCompagny, um.phone as managerPhone, um.email as managerMail, uc.phone as candidatePhone, uc.email as candidateMail, ue1.phone as expert1Phone, ue1.email as expert1Mail, ue2.phone as expert2Phone, ue2.email as expert2Mail, description FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE tpiID = :id";
     $req = $tpi->prepare($sql);
-    $req->bindParam(':id', $id, PDO::PARAM_INT);
-    $req->execute();
-    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
-}
-/**
-* get criterion of the TPI by it ID
-* @param int id of the TPI
-*/
-function getCriterion($id){
-    $tpi = getConnexion();
-    $req = $tpi->prepare("SELECT criterionDescription FROM `evaluation_criterions` WHERE tpiID = :id");
     $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);

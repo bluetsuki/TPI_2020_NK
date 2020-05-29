@@ -1,5 +1,15 @@
 <?php
 require_once 'connectDB.php';
+require_once 'crudWishes.php';
+require_once 'crudParams.php';
+
+$by = FILTER_INPUT(INPUT_GET, 'by', FILTER_SANITIZE_STRING);
+$tpiChoosen = FILTER_INPUT(INPUT_GET, 'idTPI', FILTER_SANITIZE_STRING);
+echo $tpiChoosen;
+
+if (is_numeric($by) && is_numeric($tpiChoosen)) {
+    addWishe($by, $tpiChoosen);
+}
 
 $order = filter_input(INPUT_GET, 'order', FILTER_SANITIZE_STRING);
 $order = utf8_encode($order);
@@ -16,11 +26,11 @@ $filter = str_replace('&#34;', '"', $filter);
 $filter = str_replace('\\', '', $filter);
 $tblfilter = json_decode($filter, true);
 
-$query = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID";
+$query = "SELECT tpiID, pdfPath, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID";
 
-$sqlField = ['tpiID', 'uc.LastName', 'uc.FirstName', 'um.LastName', 'um.FirstName', 'companyName', 'ue1.LastName', 'ue1.FirstName', 'ue2.LastNane', 'ue2.FirstName', 'sessionStart', 'sessionEnd', 'title', 'cfcDomain'];
+$sqlField = ['tpiID', 'pdfPath', 'uc.LastName', 'uc.FirstName', 'um.LastName', 'um.FirstName', 'companyName', 'ue1.LastName', 'ue1.FirstName', 'ue2.LastNane', 'ue2.FirstName', 'sessionStart', 'sessionEnd', 'title', 'cfcDomain', 'tpiStatus'];
 
-$sqlField2 = ['tpiID', 'candidateLastName', 'candidateFirstName', 'managerLastName', 'managerFirstName', 'companyName', 'expert1LastName', 'expert1FirstName', 'expert2LastName', 'expert2FirstName', 'sessionStart', 'sessionEnd', 'title', 'cfcDomain'];
+$sqlField2 = ['tpiID', 'pdfPath', 'candidateLastName', 'candidateFirstName', 'managerLastName', 'managerFirstName', 'companyName', 'expert1LastName', 'expert1FirstName', 'expert2LastName', 'expert2FirstName', 'sessionStart', 'sessionEnd', 'title', 'cfcDomain', 'tpiStatus'];
 
 $conditionOperator = ['=', '<=', '<', '>', '>=', 'like'];
 
@@ -80,15 +90,40 @@ $req->execute();
 $res = $req->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($res as $key => $value) {
-    echo '<tr><th scope="row">' . $key . '</th>';
+    echo '<tr>';
+    echo '<th scope="row">' . $value['tpiID'] . '</th>';
     echo '<td>' . $value['candidateLastName'] . '</td>';
     echo '<td>' . $value['candidateFirstName'] . '</td>';
     echo '<td>' . $value['companyName'] . '</td>';
     echo '<td>' . $value['managerLastName'] . ' ' . $value['managerFirstName'] . '</td>';
     echo '<td>' . $value['sessionStart'] . '</td>';
     echo '<td>' . $value['sessionEnd'] . '</td>';
-    echo '<td>' . $value['title'] . '</td>';
+    echo '<td><a href="pdf/' . $value['pdfPath'] . '">' . $value['title'] . '</a></td>';
     echo '<td>' . $value['cfcDomain'] . '</td>';
-    echo '<td>' . $value['expert1LastName'] . ' ' . $value['expert2FirstName'] . '</td>';
-    echo '<td>' . $value['expert1LastName'] . ' ' . $value['expert2FirstName'] . '</td></tr>';
+    echo '<td>' . $value['tpiStatus'] . '</td>';
+    echo '<td>' . $value['expert1LastName'] . ' ' . $value['expert1FirstName'] . '</td>';
+    echo '<td>' . $value['expert2LastName'] . ' ' . $value['expert2FirstName'] . '</td>';
+    echo '<td>';
+    $names = getWishesByTpiIdAssignedNull($value['tpiID']);
+    $nbExpert = count($names);
+    foreach ($names as $key => $name) {
+        $key++;
+        echo $key . '. ' . $name['expertLastName'] . ' ' . $name['expertFirstName'] . '<br>';
+    }
+    echo '</td>';
+    if ($nbExpert < getParamsByName('NbMaxExpertForOneCandidate')[0]['value']) {
+        // @TODO by=id to change when the management of roles is done
+        // display this when the user is a expert
+        // echo '<td><a href="?action=tpi&by=277&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a></td>';
+
+        // display this when the user is the user is the expert manager
+        echo '<td><a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir Expert</button></a></td>';
+
+    }else{
+        // echo '<td><button class="btn btn-secondary" disabled>Choisir</button></td>';
+
+        // display this when the user is the user is the expert manager
+        echo '<td><a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-secondary">Choisir Expert</button></a></td>';
+    }
+    echo '</tr>';
 }

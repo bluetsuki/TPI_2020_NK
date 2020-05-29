@@ -7,9 +7,7 @@
 
                 <div class="sb-sidenav-menu-heading">Répartition TPI</div>
                 <a class="nav-link" href="?action=tpi">Tableau TPI</a>
-                <a class="nav-link" href="?action=selectTPI">Sélection TPI</a>
                 <a class="nav-link" href="?action=formParams">Formulaire Admin</a>
-                <a class="nav-link" href="home.php">Page/Action 4</a>
                 <div class="sb-sidenav-menu-heading">Module 2</div>
                 <a class="nav-link" href="home.php">Page/Action 1</a>
                 <a class="nav-link" href="home.php">Page/Action 2</a>

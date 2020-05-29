@@ -1,16 +1,17 @@
 <?php
+//@TODO check the format of the date and hour aaaa-mm-jj hh:mm:ss
 require_once 'model/connectDB.php';
 require_once 'model/crudParams.php';
 
 $tabParams = getParams();
 
-$nameNbExpMax = $tabParams[3]['name'];
-$nameDateStart = $tabParams[4]['name'];
-$nameDateEnd = $tabParams[5]['name'];
+const nbExpertMax = 'NbMaxExpertForOneCandidate';
+const wishesSessionStart = 'WishesSessionStart';
+const wishesSessionEnd = 'WishesSessionEnd';
 
-$nbExpMax = $tabParams[3]['value'];
-$dateStart = $tabParams[4]['value'];
-$dateEnd = $tabParams[5]['value'];
+$nbExpMax = $tabParams[nbExpertMax];
+$dateStart = $tabParams[wishesSessionStart];
+$dateEnd = $tabParams[wishesSessionEnd];
 
 $form = <<<FORMPARAM
 <form class="mt-4" action="?action=formParams" method="POST">
@@ -41,9 +42,9 @@ if ($btn == 'send') {
     $newDateEnd = FILTER_INPUT(INPUT_POST, 'dateEnd', FILTER_SANITIZE_STRING);
     $newNbExpMax = FILTER_INPUT(INPUT_POST, 'nbExpMax', FILTER_SANITIZE_STRING);
 
-    updParam('NbMaxExpertForOneCandidate', $newNbExpMax);
-    updParam('WhishesSessionStart', $newDateStart);
-    updParam('WischesSessionEnd', $newDateEnd);
+    updParam(nbExpertMax, $newNbExpMax);
+    updParam(wishesSessionStart, $newDateStart);
+    updParam(wischesSessionEnd, $newDateEnd);
 
     header('Location: ?action=tpi');
     exit;

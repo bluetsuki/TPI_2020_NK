@@ -35,65 +35,58 @@
                                 <th scope="col">Titre</th>
                                 <th scope="col">Domaine</th>
                                 <th scope="col">Souhait Experts</th>
-                                <th scope="col">Choisir</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            //@TODO display the name of experts that want the TPI
                             //@TODO clean the view, put the foreach in the model
-                            //@TODO These action are possible only durint the period define by the admin
-                            //@TODO put together
-                            //@TODO put the status
+                            //@TODO can undo the choice
                             //id of expert 277 261 281 278
                             $nbExpert = 0;
-                            foreach (getTPIsWOExpert() as $value) {
-                                echo '<tr><th scope="row">' . $value['tpiID'] . '</th>';
+                            foreach (getTPIsById($tpiChoosen) as $value) {
+                                echo '<td>' . $value['tpiID'] . '</td>';
                                 echo '<td>' . $value['candidateLastName'] . '</td>';
                                 echo '<td>' . $value['candidateFirstName'] . '</td>';
                                 echo '<td>' . $value['companyName'] . '</td>';
                                 echo '<td>' . $value['managerLastName'] . ' ' . $value['managerFirstName'] . '</td>';
                                 echo '<td>' . $value['sessionStart'] . '</td>';
                                 echo '<td>' . $value['sessionEnd'] . '</td>';
-                                echo '<td><a href="pdf/' . $value['pdfPath'] . '">' . $value['title'] . '</a></td>';
+                                echo '<td><a href="pdf/Enonce_TPI_'. $value['year'] .'_'. $value['tpiID'] .'_'. $value['candidateLastName'] .'_'. $value['candidateFirstName'] .'.pdf">' . $value['title'] . '</a></td>';
                                 echo '<td>' . $value['cfcDomain'] . '</td>';
                                 echo '<td>';
                                 $names = getWishesByTpiIdAssignedNull($value['tpiID']);
-                                $nbExpert = count($names);
+                                $nbExpertAssigned = count(getWishesByTpiId($value['tpiID']));
                                 foreach ($names as $key => $name) {
                                     $key++;
-                                    echo $key . '. ' . $name['expertLastName'] . ' ' . $name['expertFirstName'] . '<br>';
+                                    echo '<div class="row">';
+                                    echo '<div class="col-5">' . $key . '. ' . $name['expertLastName'] . ' ' . $name['expertFirstName'] . '</div>';
+                                    if ($nbExpertAssigned < 2) {
+                                        echo '<div class="col-5">';
+                                        echo '<a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '&idExpert=' . $name['userExpertID'] . '&assigned=1"><button class="ml-2 mb-2 btn btn-outline-success">Expert 1</button></a>';
+                                        echo '<a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '&idExpert=' . $name['userExpertID'] . '&assigned=2"><button class="ml-2 mb-2 btn btn-outline-success">Expert 2</button></a></div><br>';
+                                        echo '</div>';
+                                    }else{
+                                        echo '<div class="col-5">';
+                                        echo '<a><button class="ml-2 mb-2 btn btn-secondary" disabled>Expert 1</button></a>';
+                                        echo '<a><button class="ml-2 mb-2 btn btn-secondary" disabled>Expert 2</button></a></div><br>';
+                                        echo '</div>';
+                                    }
                                 }
-                                echo '</td>';
-                                if ($nbExpert < getParamsByName('NbMaxExpertForOneCandidate')[0]['value']) {
-                                    //@TODO by=id to change when the management of roles is done
-                                    //display this when the user is a expert
-                                    // echo '<td><a href="?action=selectTPI&pdf=false&by=277&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a></td>';
-
-                                    //display this when the user is the user is the expert manager
-                                    echo '<td><a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir Expert</button></a></td>';
-
-                                }else{
-                                    // echo '<td><button class="btn btn-secondary" disabled>Choisir</button></td>';
-
-                                    //display this when the user is the user is the expert manager
-                                    echo '<td><a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-secondary">Choisir Expert</button></a></td>';
-                                }
-                                echo '</tr>';
+                                echo '</td></tr>';
                             }
                             ?>
                         </tbody>
                     </table>
+                    <a href="?action=tpi"><button class="btn btn-primary float-right">Retour</button></a>
                 </div>
                 <!-- fin du contenu de la page-->
             </main>
-            <?php require_once 'footer.php' ?>
+            <?php require_once 'footer.php'; ?>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
-    <script src="js/tabOrder.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 </body>
 

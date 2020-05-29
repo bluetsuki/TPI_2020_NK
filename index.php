@@ -19,6 +19,7 @@ $permission = [
         "selectTPI" => "selectTPI",
         "logout" => "logout",
         "formParams" => "formParams",
+        "selectExpert" => "selectExpert"
     ],
     "Administrator" => [
         "default" => "login",

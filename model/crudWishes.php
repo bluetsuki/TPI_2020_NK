@@ -36,16 +36,32 @@ function rmMedia($id){
 }
 
 /**
-* get all wishes of the TPI by it ID
+* get all wishes of the TPI by it ID that hasn't been assigned
 * @param int id of the TPI
 */
-function getWishesByIdExpert($id){
+function getWishesByTpiIdAssignedNull($id){
     $wishes = getConnexion();
-    $req = $wishes->prepare("SELECT lastName as expertLastName, firstName as expertFirstName, `tpiID`, assigned
+    $req = $wishes->prepare("SELECT userExpertID, lastName as expertLastName, firstName as expertFirstName, `tpiID`, assigned
         FROM `wishes` AS w
         LEFT JOIN users AS ue1 ON w.userExpertID = ue1.userID
         WHERE assigned IS NULL
         AND tpiID = :id");
+    $req->bindParam(':id', $id, PDO::PARAM_INT);
+    $req->execute();
+    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+* get all wishes of the TPI by it ID that has been assigned
+* @param int id of the TPI
+*/
+function getWishesByTpiId($id){
+    $wishes = getConnexion();
+    $req = $wishes->prepare("SELECT userExpertID, lastName as expertLastName, firstName as expertFirstName, `tpiID`, assigned
+        FROM `wishes` AS w
+        LEFT JOIN users AS ue1 ON w.userExpertID = ue1.userID
+        WHERE tpiID = :id
+        AND assigned IS NOT NULL");
     $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);
@@ -58,7 +74,7 @@ function getWishesByIdExpert($id){
 */
 function updWishe($idExpert, $tpi, $assigned = null) {
     $upd = getConnexion();
-    $req = $upd->prepare("UPDATE wishes SET userExpertID = :expert, assigned = :assigned WHERE tpiID = :tpi");
+    $req = $upd->prepare("UPDATE `wishes` SET `assigned` = :assigned WHERE `userExpertID` = :expert AND `tpiID` = :tpi");
     $req->bindParam(":expert", $idExpert, PDO::PARAM_INT);
     $req->bindParam(":assigned", $assigned, PDO::PARAM_INT);
     $req->bindParam(":tpi", $tpi, PDO::PARAM_INT);
