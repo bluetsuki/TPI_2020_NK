@@ -3,9 +3,10 @@ require_once 'connectDB.php';
 require_once 'crudWishes.php';
 require_once 'crudParams.php';
 
+session_start();
+
 $by = FILTER_INPUT(INPUT_GET, 'by', FILTER_SANITIZE_STRING);
 $tpiChoosen = FILTER_INPUT(INPUT_GET, 'idTPI', FILTER_SANITIZE_STRING);
-echo $tpiChoosen;
 
 if (is_numeric($by) && is_numeric($tpiChoosen)) {
     addWishe($by, $tpiChoosen);
@@ -89,6 +90,8 @@ for ($i = 0; $i < count($conditionValue); $i++) {
 $req->execute();
 $res = $req->fetchAll(PDO::FETCH_ASSOC);
 
+$tab = '';
+
 foreach ($res as $key => $value) {
     echo '<tr>';
     echo '<th scope="row">' . $value['tpiID'] . '</th>';
@@ -112,18 +115,24 @@ foreach ($res as $key => $value) {
     }
     echo '</td>';
     if ($nbExpert < getParamsByName('NbMaxExpertForOneCandidate')[0]['value']) {
-        // @TODO by=id to change when the management of roles is done
-        // display this when the user is a expert
-        // echo '<td><a href="?action=tpi&by=277&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a></td>';
-
-        // display this when the user is the user is the expert manager
-        echo '<td><a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir Expert</button></a></td>';
-
+        echo '<td>';
+        if (in_array('Expert', $_SESSION['roles'][0])) {
+            echo '<a href="?action=selectTPI&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a>';
+        }
+        if (in_array('Administrator', $_SESSION['roles'][0])){
+            echo '<a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir Expert</button></a>';
+        }
+        echo '</td>';
     }else{
-        // echo '<td><button class="btn btn-secondary" disabled>Choisir</button></td>';
-
-        // display this when the user is the user is the expert manager
-        echo '<td><a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-secondary">Choisir Expert</button></a></td>';
+        echo '<td>';
+        if (in_array('Expert', $_SESSION['roles'][0])) {
+            echo '<button class="btn btn-secondary" disabled>Choisir</button>';
+        }
+        if (in_array('Administrator', $_SESSION['roles'][0])){
+            echo '<a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-secondary">Choisir Expert</button></a>';
+        }
+        echo '</td>';
     }
     echo '</tr>';
+
 }

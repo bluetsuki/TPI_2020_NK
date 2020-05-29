@@ -38,43 +38,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            //@TODO clean the view, put the foreach in the model
-                            //@TODO can undo the choice
-                            //id of expert 277 261 281 278
-                            $nbExpert = 0;
-                            foreach (getTPIsById($tpiChoosen) as $value) {
-                                echo '<td>' . $value['tpiID'] . '</td>';
-                                echo '<td>' . $value['candidateLastName'] . '</td>';
-                                echo '<td>' . $value['candidateFirstName'] . '</td>';
-                                echo '<td>' . $value['companyName'] . '</td>';
-                                echo '<td>' . $value['managerLastName'] . ' ' . $value['managerFirstName'] . '</td>';
-                                echo '<td>' . $value['sessionStart'] . '</td>';
-                                echo '<td>' . $value['sessionEnd'] . '</td>';
-                                echo '<td><a href="pdf/Enonce_TPI_'. $value['year'] .'_'. $value['tpiID'] .'_'. $value['candidateLastName'] .'_'. $value['candidateFirstName'] .'.pdf">' . $value['title'] . '</a></td>';
-                                echo '<td>' . $value['cfcDomain'] . '</td>';
-                                echo '<td>';
-                                $names = getWishesByTpiIdAssignedNull($value['tpiID']);
-                                $nbExpertAssigned = count(getWishesByTpiId($value['tpiID']));
-                                foreach ($names as $key => $name) {
-                                    $key++;
-                                    echo '<div class="row">';
-                                    echo '<div class="col-5">' . $key . '. ' . $name['expertLastName'] . ' ' . $name['expertFirstName'] . '</div>';
-                                    if ($nbExpertAssigned < 2) {
-                                        echo '<div class="col-5">';
-                                        echo '<a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '&idExpert=' . $name['userExpertID'] . '&assigned=1"><button class="ml-2 mb-2 btn btn-outline-success">Expert 1</button></a>';
-                                        echo '<a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '&idExpert=' . $name['userExpertID'] . '&assigned=2"><button class="ml-2 mb-2 btn btn-outline-success">Expert 2</button></a></div><br>';
-                                        echo '</div>';
-                                    }else{
-                                        echo '<div class="col-5">';
-                                        echo '<a><button class="ml-2 mb-2 btn btn-secondary" disabled>Expert 1</button></a>';
-                                        echo '<a><button class="ml-2 mb-2 btn btn-secondary" disabled>Expert 2</button></a></div><br>';
-                                        echo '</div>';
-                                    }
-                                }
-                                echo '</td></tr>';
-                            }
-                            ?>
+                            <?= $tab ?>
                         </tbody>
                     </table>
                     <a href="?action=tpi"><button class="btn btn-primary float-right">Retour</button></a>

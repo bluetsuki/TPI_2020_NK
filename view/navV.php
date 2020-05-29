@@ -1,9 +1,8 @@
 <?php
 
 $pagesName_byRight = [
-    "displayTPIsList" => "Tableau TPI",
-    "validateTPIs" => "Valider des TPI",
     "selectTPI" => "Tableau TPI",
+    "validateTPIs" => "Valider des TPI",
     "editValidation" => "Formulaire Admin",
     "editParam" => "Tableau TPI",
     "displayValidationTPI" => "Afficher les TPI",
@@ -47,8 +46,8 @@ $pagesName_byRight = [
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Connecté en tant que:</div>
-            NOM PRENOM <br>
-            (ROLES)
+            <?= strtoupper($_SESSION['name']) ?> <br>
+            <?php foreach($_SESSION["roles"][0] as $r) echo strtoupper($r) . ' '; ?>
         </div>
     </nav>
 </div>

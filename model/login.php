@@ -38,7 +38,7 @@ function login($email, $pwd){
 
             array_push($_SESSION['rights'], $rights);
         }
-
+        $_SESSION['id'] = $res[0]['userID'];
         $_SESSION['name'] = $res[0]['lastName'] . ' ' . $res[0]['firstName'];
         return true;
     }

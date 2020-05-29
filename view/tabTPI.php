@@ -62,49 +62,7 @@
                             <th scope="col">Choisir</th>
                         </tr>
                     </thead>
-                    <tbody id="dataContainer">
-                        <?php
-                        $nbExpert = 0;
-                        foreach (getTPIs() as $key => $value) {
-                            echo '<tr>';
-                            echo '<th scope="row">' . $value['tpiID'] . '</th>';
-                            echo '<td>' . $value['candidateLastName'] . '</td>';
-                            echo '<td>' . $value['candidateFirstName'] . '</td>';
-                            echo '<td>' . $value['companyName'] . '</td>';
-                            echo '<td>' . $value['managerLastName'] . ' ' . $value['managerFirstName'] . '</td>';
-                            echo '<td>' . $value['sessionStart'] . '</td>';
-                            echo '<td>' . $value['sessionEnd'] . '</td>';
-                            echo '<td><a href="pdf/' . $value['pdfPath'] . '">' . $value['title'] . '</a></td>';
-                            echo '<td>' . $value['cfcDomain'] . '</td>';
-                            echo '<td>' . $value['tpiStatus'] . '</td>';
-                            echo '<td>' . $value['expert1LastName'] . ' ' . $value['expert1FirstName'] . '</td>';
-                            echo '<td>' . $value['expert2LastName'] . ' ' . $value['expert2FirstName'] . '</td>';
-                            echo '<td>';
-                            $names = getWishesByTpiIdAssignedNull($value['tpiID']);
-                            $nbExpert = count($names);
-                            foreach ($names as $key => $name) {
-                                $key++;
-                                echo $key . '. ' . $name['expertLastName'] . ' ' . $name['expertFirstName'] . '<br>';
-                            }
-                            echo '</td>';
-                            if ($nbExpert < getParamsByName('NbMaxExpertForOneCandidate')[0]['value']) {
-                                // @TODO by=id to change when the management of roles is done
-                                // display this when the user is a expert
-                                echo '<td><a href="?action=tpi&by=277&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a></td>';
-
-                                // display this when the user is the user is the expert manager
-                                // echo '<td><a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir Expert</button></a></td>';
-
-                            }else{
-                                echo '<td><button class="btn btn-secondary" disabled>Choisir</button></td>';
-
-                                // display this when the user is the user is the expert manager
-                                // echo '<td><a href="?action=selectExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-secondary">Choisir Expert</button></a></td>';
-                            }
-                            echo '</tr>';
-                        }
-                        ?>
-                    </tbody>
+                    <tbody id="dataContainer"></tbody>
                 </table>
                 <table id="colNameModel">
                     <thead>
