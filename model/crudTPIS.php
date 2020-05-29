@@ -1,8 +1,8 @@
 <?php
 /**
- * @author Nguyen Kelly
- * @version 1.0
- */
+* @author Nguyen Kelly
+* @version 1.0
+*/
 
 require_once 'connectDB.php';
 /**
@@ -14,8 +14,17 @@ function updTPI($tpiId, $expert1 = null, $expert2 = null) {
     $upd = getConnexion();
     $req = $upd->prepare("UPDATE `tpis` SET `userExpert1ID` = :expert1, `userExpert2ID` = :expert2 WHERE `tpis`.`tpiID` = :tpiID");
     $req->bindParam(":tpiID", $tpiId, PDO::PARAM_STR);
-    $req->bindParam(":expert1", $expert1, PDO::PARAM_INT);
-    $req->bindParam(":expert2", $expert2, PDO::PARAM_INT);
+    if ($expert1 == "null") {
+        $req->bindParam(":expert1", $expert1, PDO::PARAM_NULL);
+    } else {
+        $req->bindParam(":expert1", $expert1, PDO::PARAM_INT);
+    }
+
+    if ($expert2 == "null") {
+        $req->bindParam(":expert2", $expert2, PDO::PARAM_NULL);
+    } else {
+        $req->bindParam(":expert2", $expert2, PDO::PARAM_INT);
+    }
     $req->execute();
 }
 
