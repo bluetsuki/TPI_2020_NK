@@ -1,3 +1,17 @@
+<?php
+
+$pagesName_byRight = [
+    "displayTPIsList" => "Tableau TPI",
+    "validateTPIs" => "Valider des TPI",
+    "selectTPI" => "Tableau TPI",
+    "editValidation" => "Formulaire Admin",
+    "editParam" => "Tableau TPI",
+    "displayValidationTPI" => "Afficher les TPI",
+    "displayValidationTPIManager" => "Afficher les TPI",
+];
+
+?>
+
 <div id="layoutSidenav_nav">
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
@@ -6,8 +20,13 @@
                 <a class="nav-link" href="home.php">A propos</a>
 
                 <div class="sb-sidenav-menu-heading">Répartition TPI</div>
-                <a class="nav-link" href="?action=tpi">Tableau TPI</a>
-                <a class="nav-link" href="?action=formParams">Formulaire Admin</a>
+                <?php
+                foreach ($pagesName_byRight as $key => $value) {
+                    if (in_array($key, $_SESSION['rights'][0])) {
+                        echo '<a class="nav-link" href="?action=' . $key . '">' . $value . '</a>';
+                    }
+                }
+                ?>
                 <div class="sb-sidenav-menu-heading">Module 2</div>
                 <a class="nav-link" href="home.php">Page/Action 1</a>
                 <a class="nav-link" href="home.php">Page/Action 2</a>
