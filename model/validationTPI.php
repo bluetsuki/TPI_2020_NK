@@ -1,4 +1,7 @@
 <?php
+/*
+@TODO get the id of the TPI
+*/
 if ($pdf == 'true') {
     $tpiInfo = getTPIInfoCandidate($tpiChoosen);
     $sign = getSignExpert($tpiChoosen);
@@ -27,8 +30,6 @@ if ($pdf == 'true') {
     $managerFirstName = $tpiInfo[0]['managerFirstName'];
     $managerPhone = $tpiInfo[0]['managerPhone'];
     $managerMail = $tpiInfo[0]['managerMail'];
-
-
 
     $expert1LastName = $tpiInfo[0]['expert1LastName'];
     $expert1FirstName = $tpiInfo[0]['expert1FirstName'];

@@ -28,10 +28,11 @@ function addWishe($idExpert, $tpiId)
 * Delete a wishe by it id
 * @param int tpiID
 */
-function rmMedia($id){
+function rmWishe($idExpert, $id){
     $rm = getConnexion();
-    $req = $rm->prepare("DELETE FROM wishes WHERE tpiID = :id");
+    $req = $rm->prepare("DELETE FROM wishes WHERE tpiID = :id AND userExpertID = :idExpert");
     $req->bindParam(":id", $id, PDO::PARAM_INT);
+    $req->bindParam(":idExpert", $idExpert, PDO::PARAM_INT);
     $req->execute();
 }
 
@@ -63,6 +64,15 @@ function getWishesByTpiId($id){
         WHERE tpiID = :id
         AND assigned IS NOT NULL");
     $req->bindParam(':id', $id, PDO::PARAM_INT);
+    $req->execute();
+    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getWishesUser($idExpert, $tpiID){
+    $wishes = getConnexion();
+    $req = $wishes->prepare("SELECT userExpertID, tpiID FROM `wishes` WHERE userExpertID = :id AND tpiID = :tpiID");
+    $req->bindParam(':id', $idExpert, PDO::PARAM_INT);
+    $req->bindParam(':tpiID', $tpiID, PDO::PARAM_INT);
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);
 }

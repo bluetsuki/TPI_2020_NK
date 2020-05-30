@@ -90,8 +90,6 @@ for ($i = 0; $i < count($conditionValue); $i++) {
 $req->execute();
 $res = $req->fetchAll(PDO::FETCH_ASSOC);
 
-$tab = '';
-
 foreach ($res as $key => $value) {
     echo '<tr>';
     echo '<th scope="row">' . $value['tpiID'] . '</th>';
@@ -117,7 +115,11 @@ foreach ($res as $key => $value) {
     if ($nbExpert < getParamsByName('NbMaxExpertForOneCandidate')[0]['value']) {
         echo '<td>';
         if (in_array('Expert', $_SESSION['roles'][0])) {
-            echo '<a href="?action=selectTPI&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a>';
+            if (getWishesUser($_SESSION['id'], $value['tpiID'])) {
+                echo '<a href="?action=displayTPI&idTPI=' . $value['tpiID'] . '&rm=true"><button class="btn btn-danger">Annuler</button></a>';
+            }else{
+                echo '<a href="?action=displayTPI&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a>';
+            }
         }
         if (in_array('Administrator', $_SESSION['roles'][0])){
             echo '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir Expert</button></a>';
@@ -126,7 +128,11 @@ foreach ($res as $key => $value) {
     }else{
         echo '<td>';
         if (in_array('Expert', $_SESSION['roles'][0])) {
-            echo '<button class="btn btn-secondary" disabled>Choisir</button>';
+            if (getWishesUser($_SESSION['id'], $value['tpiID'])) {
+                echo '<a href="?action=displayTPI&idTPI=' . $value['tpiID'] . '&rm=true"><button class="btn btn-danger">Annuler</button></a>';
+            }else{
+                echo '<button class="btn btn-secondary" disabled>Choisir</button>';
+            }
         }
         if (in_array('Administrator', $_SESSION['roles'][0])){
             echo '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-secondary">Choisir Expert</button></a>';

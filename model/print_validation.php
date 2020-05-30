@@ -1,8 +1,6 @@
 <?php
 // Ce fichier contient la mise en forme pour l'impresssion PDF de l'évaluation
 // Il a fonctionné avec html2pdf pour la réalisation du jeu de données.
-require_once 'selectTPI.php';
-
 ?>
 <style>
 * {
