@@ -250,7 +250,7 @@ $html .= <<<PDF
             <tr>
                 <td colspan="2" width="640">
                     <h4>Remarques, mesures de correction</h4>
-                    <p>COMMENT</p>
+                    <p>$comment</p>
                 </td>
             </tr>
         </tbody>
@@ -277,7 +277,7 @@ PDF;
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // ---------------------------------------------------------
-$pdf->Output(__DIR__ . $format, 'F');
+$pdf->Output(__DIR__ . '/../pdf/' . $format, 'F');
 
 //============================================================+
 // END OF FILE

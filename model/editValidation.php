@@ -31,19 +31,26 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
     <table class="table table-bordered mt-2">
     <thead>
     <th>Critère</th>
-    <th>Rempli (oui - non - n/a)</th>
+    <th>Rempli</th>
     </thead>
     FORMVALID;
 
     foreach ($validation_criterions as $key => $value) {
         $form .= '<tr><td>' . $value . '</td>';
-        if (!empty($criterions)){
-            $form .= '<td><input class="form-control" type="text" name="answer' . $key . '" value="' . $criterions[$key] . '" required></td>';
-        }
-        else{
-            $form .= '<td><input class="form-control" type="text" name="answer' . $key . '" required></td>';
-        }
+        $form .= '<td><select class="form-control" name="answer' . $key . '">';
+        $form .= "<option ";
+        $form .= $criterions[$key] == 'n/a' ? 'selected' : '';
+        $form .= ">n/a</option>";
 
+        $form .= "<option ";
+        $form .= $criterions[$key] == 'oui' ? 'selected' : '';
+        $form .= ">oui</option>";
+
+        $form .= "<option ";
+        $form .= $criterions[$key] == 'non' ? 'selected' : '';
+        $form .= ">non</option>";
+
+        $form .= '</select></td>';
     }
     $form .= <<<FORMVALID
     </tr>
@@ -61,7 +68,6 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
         $newComment = FILTER_INPUT(INPUT_POST, 'comment', FILTER_SANITIZE_STRING);
 
         for ($i = 0; $i < count($validation_criterions); $i++) {
-            $crit = FILTER_INPUT(INPUT_POST, 'answer' . $i, FILTER_SANITIZE_STRING);
             $crit = FILTER_INPUT(INPUT_POST, 'answer' . $i, FILTER_SANITIZE_STRING);
             array_push($tabNewCrit, $crit);
         }
@@ -132,7 +138,9 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
             $expert2HourSign = explode(':', $expert2Sign[1])[0] . ':' . explode(':', $expert2Sign[1])[1];
             $expert2Valid = "$expert2LastName $expert2FirstName : Validé le $expert2SignDate à $expert2HourSign";
 
-            $format = '/../pdf/Validation_TPI_' . $year . '_' . $tpiChoosen . '_' . $candLastName . '_' . $candFirstName . '.pdf';
+            $comment = $tabValidation['comment'];
+
+            $format = 'Validation_TPI_' . $year . '_' . $tpiChoosen . '_' . $candLastName . '_' . $candFirstName . '.pdf';
             updPdfPath($tpiChoosen, $format);
 
             require_once 'pdf.php';
