@@ -58,7 +58,12 @@ function updComment($tpiID, $comment) {
 function updExpertSign($tpiID, $sign, $expert) {
     $upd = getConnexion();
     $req = $upd->prepare("UPDATE `tpi_validations` SET $expert = :expertSign WHERE `tpiID` = :tpiID");
-    $req->bindParam(':expertSign', $sign, PDO::PARAM_STR);
+    if ($sign == '') {
+        $sign = NULL;
+        $req->bindParam(':expertSign', $sign, PDO::PARAM_NULL);
+    }else{
+        $req->bindParam(':expertSign', $sign, PDO::PARAM_STR);
+    }
     $req->bindParam(':tpiID', $tpiID, PDO::PARAM_INT);
     $req->execute();
 }

@@ -70,7 +70,7 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
         if (in_array('non', $tabNewCrit) || in_array('n/a', $tabNewCrit)) {
             updStatus($tpiChoosen, 'draft');
             updExpertSign($tpiChoosen, '', 'expert1Signature');
-            updExpertSign($tpiChoosen, '', 'expert1S2gnature');
+            updExpertSign($tpiChoosen, '', 'expert2Signature');
         }else{
             updComment($tpiChoosen, $newComment);
             if ($assignedExpert == '1') {
