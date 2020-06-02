@@ -5,13 +5,6 @@ require_once 'crudParams.php';
 
 session_start();
 
-$by = FILTER_INPUT(INPUT_GET, 'by', FILTER_SANITIZE_STRING);
-$tpiChoosen = FILTER_INPUT(INPUT_GET, 'idTPI', FILTER_SANITIZE_STRING);
-
-if (is_numeric($by) && is_numeric($tpiChoosen)) {
-    addWishe($by, $tpiChoosen);
-}
-
 $order = filter_input(INPUT_GET, 'order', FILTER_SANITIZE_STRING);
 $order = utf8_encode($order);
 $order = str_replace('&#34;', '"', $order);
@@ -89,7 +82,7 @@ for ($i = 0; $i < count($conditionValue); $i++) {
 
 $req->execute();
 $res = $req->fetchAll(PDO::FETCH_ASSOC);
-
+//Display the table in the page tabTPI
 foreach ($res as $key => $value) {
     echo '<tr>';
     echo '<th scope="row">' . $value['tpiID'] . '</th>';
@@ -112,30 +105,41 @@ foreach ($res as $key => $value) {
         echo $key . '. ' . $name['expertLastName'] . ' ' . $name['expertFirstName'] . '<br>';
     }
     echo '</td>';
+    //If the number of expert choices is inferior of the number max of expert per TPI (in table params)
     if ($nbExpert < getParamsByName('NbMaxExpertForOneCandidate')[0]['value']) {
         echo '<td>';
         if (in_array('Expert', $_SESSION['roles'][0])) {
-            if (getWishesUser($_SESSION['id'], $value['tpiID'])) {
+            if (getWishUser($_SESSION['id'], $value['tpiID'])) {
                 echo '<a href="?action=displayTPI&idTPI=' . $value['tpiID'] . '&rm=true"><button class="btn btn-danger">Annuler</button></a>';
             }else{
-                echo '<a href="?action=displayTPI&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a>';
+                if (empty($value['expert1LastName']) || empty($value['expert2LastName'])) {
+                    echo '<a href="?action=displayTPI&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a>';
+                }else{
+                    echo '<a><button class="btn btn-secondary" disabled>Choisir</button></a>';
+                }
             }
         }
+
         if (in_array('Administrator', $_SESSION['roles'][0])){
-            echo '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir Expert</button></a>';
+            if (empty($value['expert1LastName']) || empty($value['expert2LastName'])) {
+                echo '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir Expert</button></a>';
+            }
+            else{
+                echo '<a><button class="btn btn-secondary" disabled>Choisir Expert</button></a>';
+            }
         }
         echo '</td>';
     }else{
         echo '<td>';
         if (in_array('Expert', $_SESSION['roles'][0])) {
-            if (getWishesUser($_SESSION['id'], $value['tpiID'])) {
+            if (getWishUser($_SESSION['id'], $value['tpiID'])) {
                 echo '<a href="?action=displayTPI&idTPI=' . $value['tpiID'] . '&rm=true"><button class="btn btn-danger">Annuler</button></a>';
             }else{
                 echo '<button class="btn btn-secondary" disabled>Choisir</button>';
             }
         }
         if (in_array('Administrator', $_SESSION['roles'][0])){
-            echo '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-secondary">Choisir Expert</button></a>';
+                echo '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-secondary">Choisir Expert</button></a>';
         }
         echo '</td>';
     }

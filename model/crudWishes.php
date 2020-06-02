@@ -9,30 +9,26 @@
 * @param int idExpert is the Id of the Expert assign to the TPI
 * @param int tpiId is the ID of the TPI
 */
-function addWishe($idExpert, $tpiId)
+function addWish($idExpert, $tpiId)
 {
-    try {
-        $connexion = getConnexion();
-        $req = $connexion->prepare("INSERT INTO wishes (userExpertID, tpiID) VALUES (:expert, :tpiID)");
-        $req->bindParam(":expert", $idExpert, PDO::PARAM_INT);
-        $req->bindParam(":tpiID", $tpiId, PDO::PARAM_INT);
-        $req->execute();
-        // return $req->debugDumpParams();
-    } catch (\Exception $e) {
-        return $e;
-    }
+    $connexion = getConnexion();
+    $req = $connexion->prepare("INSERT INTO wishes (userExpertID, tpiID) VALUES (:expert, :tpiID)");
+    $req->bindParam(":expert", $idExpert, PDO::PARAM_INT);
+    $req->bindParam(":tpiID", $tpiId, PDO::PARAM_INT);
+    $req->execute();
 
 }
 
 /**
 * Delete a wishe by it id
-* @param int tpiID
+* @param int idExpert
+* @param int id of the TPI
 */
-function rmWishe($idExpert, $id){
+function rmWish($idExpert, $id){
     $rm = getConnexion();
-    $req = $rm->prepare("DELETE FROM wishes WHERE tpiID = :id AND userExpertID = :idExpert");
-    $req->bindParam(":id", $id, PDO::PARAM_INT);
+    $req = $rm->prepare("DELETE FROM wishes WHERE userExpertID = :idExpert AND tpiID = :id");
     $req->bindParam(":idExpert", $idExpert, PDO::PARAM_INT);
+    $req->bindParam(":id", $id, PDO::PARAM_INT);
     $req->execute();
 }
 
@@ -68,7 +64,11 @@ function getWishesByTpiId($id){
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getWishesUser($idExpert, $tpiID){
+/**
+* get the wish of the user by ids
+* @param int id of the TPI
+*/
+function getWishUser($idExpert, $tpiID){
     $wishes = getConnexion();
     $req = $wishes->prepare("SELECT userExpertID, tpiID FROM `wishes` WHERE userExpertID = :id AND tpiID = :tpiID");
     $req->bindParam(':id', $idExpert, PDO::PARAM_INT);
@@ -82,7 +82,7 @@ function getWishesUser($idExpert, $tpiID){
 * @param string name of the param
 * @param string value of the param
 */
-function updWishe($idExpert, $tpi, $assigned = null) {
+function updWish($idExpert, $tpi, $assigned = null) {
     $upd = getConnexion();
     $req = $upd->prepare("UPDATE `wishes` SET `assigned` = :assigned WHERE `userExpertID` = :expert AND `tpiID` = :tpi");
     $req->bindParam(":expert", $idExpert, PDO::PARAM_INT);

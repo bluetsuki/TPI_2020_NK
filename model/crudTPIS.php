@@ -5,26 +5,43 @@
 */
 
 require_once 'connectDB.php';
-/**
-* update the value by the name given
-* @param string name of the param
-* @param string value of the param
-*/
-function updTPI($tpiId, $expert1 = null, $expert2 = null) {
-    $upd = getConnexion();
-    $req = $upd->prepare("UPDATE `tpis` SET `userExpert1ID` = :expert1, `userExpert2ID` = :expert2 WHERE `tpis`.`tpiID` = :tpiID");
-    $req->bindParam(":tpiID", $tpiId, PDO::PARAM_STR);
-    if ($expert1 == "null") {
-        $req->bindParam(":expert1", $expert1, PDO::PARAM_NULL);
-    } else {
-        $req->bindParam(":expert1", $expert1, PDO::PARAM_INT);
-    }
 
-    if ($expert2 == "null") {
-        $req->bindParam(":expert2", $expert2, PDO::PARAM_NULL);
-    } else {
-        $req->bindParam(":expert2", $expert2, PDO::PARAM_INT);
-    }
+/**
+* update the userExpert1ID by the ID given
+* @param int tpiID
+* @param int expertID
+*/
+function updTPIExp1($tpiID, $expertID) {
+    $upd = getConnexion();
+    $req = $upd->prepare("UPDATE `tpis` SET `userExpert1ID` = :expert1 WHERE `tpis`.`tpiID` = :tpiID");
+    $req->bindParam(":tpiID", $tpiID, PDO::PARAM_INT);
+    $req->bindParam(":expert1", $expertID, PDO::PARAM_INT);
+    $req->execute();
+}
+
+/**
+* update the userExpert1ID by the ID given
+* @param int tpiID
+* @param int expertID
+*/
+function updTPIExp2($tpiID, $expertID) {
+    $upd = getConnexion();
+    $req = $upd->prepare("UPDATE `tpis` SET `userExpert2ID` = :expert2 WHERE `tpis`.`tpiID` = :tpiID");
+    $req->bindParam(":tpiID", $tpiID, PDO::PARAM_INT);
+    $req->bindParam(":expert2", $expertID, PDO::PARAM_INT);
+    $req->execute();
+}
+
+/**
+* update the status of the TPI
+* @param int tpiID
+* @param int stat of the TPI
+*/
+function updStatus($tpiId, $stat) {
+    $upd = getConnexion();
+    $req = $upd->prepare("UPDATE `tpis` SET `tpiStatus` = :stat WHERE `tpiID` = :tpiID");
+    $req->bindParam(":tpiID", $tpiId, PDO::PARAM_INT);
+    $req->bindParam(":stat", $stat, PDO::PARAM_INT);
     $req->execute();
 }
 
@@ -40,24 +57,27 @@ function getTPIs(){
 }
 
 /**
-* get all TPIs that haven't got experts
-*/
-function getTPIsWOExpert(){
-    $tpi = getConnexion();
-    $sql = "SELECT tpiID, year, pdfPath, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE userExpert1ID IS NULL OR userExpert2ID IS NULL";
-    $req = $tpi->prepare($sql);
-    $req->execute();
-    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
-}
-
-/**
-* get all TPIs that haven't got experts by id
+* get all TPIs by id
+* @param int id of the TPI
 */
 function getTPIsById($id){
     $tpi = getConnexion();
     $sql = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, pdfPath, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE tpiID = :id";
     $req = $tpi->prepare($sql);
     $req->bindParam(':id', $id, PDO::PARAM_INT);
+    $req->execute();
+    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+* get all TPIs of the user
+* @param int id of the TPI
+*/
+function getTPIsOfUser($idUser){
+    $tpi = getConnexion();
+    $sql = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, pdfPath, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE userExpert1ID = :idUser OR userExpert2ID = :idUser";
+    $req = $tpi->prepare($sql);
+    $req->bindParam(':idUser', $idUser, PDO::PARAM_INT);
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -73,19 +93,6 @@ function getTPIInfoCandidate($id){
     $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);
-}
-
-/**
-* get TPI validation by it ID
-* @param int id of the TPI
-*/
-function getTPIValidation($id){
-    $tpi = getConnexion();
-    $req = $tpi->prepare("SELECT * FROM `tpi_validations` AS tec LEFT JOIN evaluation_criterions AS ec ON tec.evaluationCriterionID = ec.evaluationCriterionID WHERE tec.tpiID = :id");
-    $req->bindParam(':id', $id, PDO::PARAM_INT);
-    $req->execute();
-    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
-
 }
 
 /**

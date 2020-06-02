@@ -22,26 +22,7 @@
             <main>
                 <!-- Début du contenu de la page -->
                 <div class="container-fluid">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nom</th>
-                                <th scope="col">Prénom</th>
-                                <th scope="col">Entreprise</th>
-                                <th scope="col">Chef de projet</th>
-                                <th scope="col">Date de début</th>
-                                <th scope="col">Date de fin</th>
-                                <th scope="col">Titre</th>
-                                <th scope="col">Domaine</th>
-                                <th scope="col">Souhait Experts</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?= $tab ?>
-                        </tbody>
-                    </table>
-                    <a href="?action=displayTPI"><button class="btn btn-primary float-right">Retour</button></a>
+                    <?= $tab ?>
                 </div>
                 <!-- fin du contenu de la page-->
             </main>

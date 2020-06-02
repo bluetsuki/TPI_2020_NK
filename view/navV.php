@@ -6,9 +6,7 @@ $pagesName_distribution_byRight = [
 ];
 
 $pagesName_validation_byRight = [
-    "editValidation" => "Formulaire de Validation",
-    "displayValidationTPI" => "Afficher les Validations",
-    "displayValidationTPIManager" => "Afficher les Validations",
+    "displayValidationTPI" => "Afficher les Validations"
 ];
 
 ?>

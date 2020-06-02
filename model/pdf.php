@@ -6,7 +6,7 @@ $validation_criterions = array(
     "Le nombre d'heures estimés est en accord avec le règlement. (70-90 heures)",
     "L'énoncé est entièrement rédigé par le supérieur du candidat.",
     "L'énoncé comprend uniquement des éléments connus du candidat. (Pas de travail de recherche)",
-    "L'énoncé correspond à l'éventail normal des tâches de cette place de travail.",
+    "L'énoncé correspond à l'éventail normal des tâches de cette place de travaisl.",
     "L'énoncé décrit clairement et sans équivoque les éléments vérifiables et de contrôle.",
     "L'énoncé ne laisse pas de possibilité à interprétation du travail final. (Pas de phrase au conditionnel)",
     "L'énoncé décrit clairement les buts à atteindre dans le travail final.",
