@@ -1,6 +1,5 @@
 <?php
 require_once('tcpdf/tcpdf_include.php');
-require_once('validationTPI.php');
 
 $validation_criterions = array(
     "Le nombre d'heures estimés est en accord avec le règlement. (70-90 heures)",
@@ -242,9 +241,9 @@ table.page_header {
         <tbody>
 PDF;
 
-foreach ($validation_criterions as $key) {
-    $html .= '<tr><td width="500">' . $key .'</td>';
-    $html .= '<td width="100"> NON </td></tr>';
+foreach ($validation_criterions as $key => $value) {
+    $html .= '<tr><td width="500">' . $value .'</td>';
+    $html .= '<td width="100">' . $tabNewCrit[$key] .'</td></tr>';
 }
 
 $html .= <<<PDF
@@ -278,15 +277,7 @@ PDF;
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // ---------------------------------------------------------
-
-// $format = 'Enonce_TPI_%s_%d_%s_%s.pdf';
-// echo sprintf($format, $year, $tpiChoosen, $candLastName, $candFirstName);
-//Close and output PDF document
-
-$format = 'Enonce_TPI_' . $year . '_' . $tpiChoosen . '_' . $candLastName . '_' . $candFirstName . '.pdf';
-// $format = 'Enonce_TPI_2020.pdf';
-
-$pdf->Output($format, 'I');
+$pdf->Output(__DIR__ . $format, 'F');
 
 //============================================================+
 // END OF FILE

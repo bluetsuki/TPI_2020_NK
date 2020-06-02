@@ -23,6 +23,18 @@ function getValidation($id){
 }
 
 /**
+* get TPI signature by it ID
+* @param int id of the TPI
+*/
+function getSignExpert($id){
+    $tpi = getConnexion();
+    $req = $tpi->prepare("SELECT expert1Signature, expert2Signature FROM tpi_validations WHERE tpiID = :id");
+    $req->bindParam(':id', $id, PDO::PARAM_INT);
+    $req->execute();
+    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
 * update the criterions of the TPI
 * @param int tpiID
 * @param string crit is the criterions of the TPI, the delimitation is ';'
@@ -37,24 +49,24 @@ function updCriterions($tpiID, $crit) {
 
 function updComment($tpiID, $comment) {
     $upd = getConnexion();
-    $req = $upd->prepare("UPDATE `tpi_validations` SET `criterions` = :crit WHERE `tpiID` = :tpiID");
-    $req->bindParam(':crit', $crit, PDO::PARAM_STR);
-    $req->bindParam(':tpiID', $tpiID, PDO::PARAM_STR);
+    $req = $upd->prepare("UPDATE `tpi_validations` SET `comment` = :comment WHERE `tpiID` = :tpiID");
+    $req->bindParam(':comment', $comment, PDO::PARAM_STR);
+    $req->bindParam(':tpiID', $tpiID, PDO::PARAM_INT);
     $req->execute();
 }
 
-function updExpertSign($tpiID, $crit) {
+function updExpertSign($tpiID, $sign, $expert) {
     $upd = getConnexion();
-    $req = $upd->prepare("UPDATE `tpi_validations` SET `criterions` = :crit WHERE `tpiID` = :tpiID");
-    $req->bindParam(':crit', $crit, PDO::PARAM_STR);
-    $req->bindParam(':tpiID', $tpiID, PDO::PARAM_STR);
+    $req = $upd->prepare("UPDATE `tpi_validations` SET $expert = :expertSign WHERE `tpiID` = :tpiID");
+    $req->bindParam(':expertSign', $sign, PDO::PARAM_STR);
+    $req->bindParam(':tpiID', $tpiID, PDO::PARAM_INT);
     $req->execute();
 }
 
-function updPdfPath($tpiID, $crit) {
+function updPdfPath($tpiID, $path) {
     $upd = getConnexion();
-    $req = $upd->prepare("UPDATE `tpi_validations` SET `criterions` = :crit WHERE `tpiID` = :tpiID");
-    $req->bindParam(':crit', $crit, PDO::PARAM_STR);
-    $req->bindParam(':tpiID', $tpiID, PDO::PARAM_STR);
+    $req = $upd->prepare("UPDATE `tpi_validations` SET `pdfPath` = :pdfPath WHERE `tpiID` = :tpiID");
+    $req->bindParam(':pdfPath', $path, PDO::PARAM_STR);
+    $req->bindParam(':tpiID', $tpiID, PDO::PARAM_INT);
     $req->execute();
 }

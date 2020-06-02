@@ -14,6 +14,7 @@ $tab = <<<TABVALIDATION
             <th scope="col">Date de fin</th>
             <th scope="col">Titre</th>
             <th scope="col">Domaine</th>
+            <th scope="col">Statut</th>
             <th scope="col">Expert 1</th>
             <th scope="col">Expert 2</th>
             <th scope="col">Validation</th>
@@ -42,10 +43,16 @@ foreach ($tabValidation as $value) {
         $tab .= '<td>'. $value['sessionEnd'] .'</td>';
         $tab .= '<td>'. $value['title'] .'</td>';
         $tab .= '<td>'. $value['cfcDomain'] .'</td>';
+        $tab .= '<td>'. $value['tpiStatus'] .'</td>';
         $tab .= '<td>'. $value['expert1LastName'] . ' ' . $value['expert1FirstName'] .'</td>';
         $tab .= '<td>'. $value['expert2LastName'] . ' ' . $value['expert2FirstName'] .'</td>';
-        if (in_array('Expert', $_SESSION['roles'][0]))
-        $tab .= '<td><a href="?action=editValidation&tpiID=' . $value['tpiID'] . '"><button class="btn btn-success">Valider</button></a></td>';
+        if (in_array('Expert', $_SESSION['roles'][0])){
+            if ($value['userExpert1ID'] == $_SESSION['id']) {
+                $tab .= '<td><a href="?action=editValidation&tpiID=' . $value['tpiID'] . '&expert=1"><button class="btn btn-success">Valider</button></a></td>';
+            }else{
+                $tab .= '<td><a href="?action=editValidation&tpiID=' . $value['tpiID'] . '&expert=2"><button class="btn btn-success">Valider</button></a></td>';
+            }
+        }
         $tab .= '</tr>';
     }
 }
