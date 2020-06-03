@@ -1,9 +1,20 @@
 <?php
+require __DIR__.'/../vendor/autoload.php';
+
+use Spipu\Html2Pdf\Html2Pdf;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+
 $tpiChoosen = FILTER_INPUT(INPUT_GET, 'tpiID', FILTER_SANITIZE_NUMBER_INT);
 $btn = FILTER_INPUT(INPUT_POST, 'valid', FILTER_SANITIZE_STRING);
 $assignedExpert = FILTER_INPUT(INPUT_GET, 'expert', FILTER_SANITIZE_STRING);
+$error = '';
 
 if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
+
+    $tpiInfo = getTPIInfoCandidate($tpiChoosen);
+    $sign = getSignExpert($tpiChoosen);
+
     $validation_criterions = array(
         "Le nombre d'heures estimés est en accord avec le règlement. (70-90 heures)",
         "L'énoncé est entièrement rédigé par le supérieur du candidat.",
@@ -20,10 +31,20 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
         "Les questions A14-A20 sont différentes des questions de la grille d'évaluation.",
         "Le supérieur et le candidat sont préparé à cet examen"
     );
+
     if (!empty(getValidation($tpiChoosen))) {
         $tabValidation = getValidation($tpiChoosen)[0];
         $criterions = explode(';', $tabValidation['criterions']);
         $comment = $tabValidation['comment'];
+        $expert1Sign = $tabValidation['expert1Signature'];
+        $expert2Sign = $tabValidation['expert2Signature'];
+    }else{
+        for ($i = 0; $i < count($validation_criterions); $i++) {
+            $criterions[] = '';
+        }
+        $comment = '';
+        $expert1Sign = '';
+        $expert2Sign = '';
     }
 
     $form = <<<FORMVALID
@@ -38,6 +59,7 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
     foreach ($validation_criterions as $key => $value) {
         $form .= '<tr><td>' . $value . '</td>';
         $form .= '<td><select class="form-control" name="answer' . $key . '">';
+        $form .= "<option></option>";
         $form .= "<option ";
         $form .= $criterions[$key] == 'n/a' ? 'selected' : '';
         $form .= ">n/a</option>";
@@ -52,16 +74,23 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
 
         $form .= '</select></td>';
     }
+    //@TODO get the name of the 2 experts
     $form .= <<<FORMVALID
     </tr>
     </table>
-        <div class="form-group">
-            <label for="comment">Commentaire</label>
-            <textarea style="resize: none;" cols="100" class="form-control" id="comment" name="comment">$comment</textarea>
-        </div>
-        <a href="?action=editParam&tpiID=$tpiChoosen"><button name="valid" value="valid" class="btn btn-success float-right">Valider</button></a>
-        </form>
+    <div class="form-group">
+    <label for="comment">Commentaire</label>
+    <textarea style="resize: none;" cols="100" class="form-control" id="comment" name="comment">$comment</textarea>
+    </div>
+    <tr>
+    Expert 1 : $expert1Sign <br>
+    Expert 2 : $expert2Sign
+    </tr>
     FORMVALID;
+    if (in_array('Expert', $_SESSION['roles'][0]) || in_array('Administrator', $_SESSION['roles'][0])) {
+        $form .= '<a href="?action=editParam&tpiID=$tpiChoosen"><button name="valid" value="valid" class="btn btn-success float-right">Valider</button></a></form>';
+    }
+
 
     if ($btn == 'valid') {
         $tabNewCrit = array();
@@ -71,9 +100,17 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
             $crit = FILTER_INPUT(INPUT_POST, 'answer' . $i, FILTER_SANITIZE_STRING);
             array_push($tabNewCrit, $crit);
         }
+
         $newCrit = implode(';', $tabNewCrit);
 
-        if (in_array('non', $tabNewCrit) || in_array('n/a', $tabNewCrit)) {
+        if (!empty($criterions)){
+            updCriterions($tpiChoosen, $newCrit);
+        }
+        else{
+            addCrit($tpiChoosen, $newCrit);
+        }
+
+        if (in_array('non', $tabNewCrit)) {
             updStatus($tpiChoosen, 'draft');
             updExpertSign($tpiChoosen, '', 'expert1Signature');
             updExpertSign($tpiChoosen, '', 'expert2Signature');
@@ -88,13 +125,19 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
 
         $tabValidation = getValidation($tpiChoosen)[0];
 
+        if ($tabValidation['criterions'] != $newCrit) {
+            updExpertSign($tpiChoosen, '', 'expert1Signature');
+            updExpertSign($tpiChoosen, '', 'expert2Signature');
+            if ($assignedExpert == '1') {
+                updExpertSign($tpiChoosen, date('Y-m-d H:i:s'), 'expert1Signature');
+            }else{
+                updExpertSign($tpiChoosen, date('Y-m-d H:i:s'), 'expert2Signature');
+            }
+        }
+
         if ($tabValidation['expert1Signature'] != '' && $tabValidation['expert2Signature'] != '') {
             updStatus($tpiChoosen, 'valid');
 
-            $tpiInfo = getTPIInfoCandidate($tpiChoosen);
-            $sign = getSignExpert($tpiChoosen);
-
-            $year = $tpiInfo[0]['year'];
             $title = $tpiInfo[0]['title'];
             $domain = $tpiInfo[0]['cfcDomain'];
             $dateStart = explode(' ', $tpiInfo[0]['sessionStart']);
@@ -143,14 +186,25 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
             $format = 'Validation_TPI_' . $year . '_' . $tpiChoosen . '_' . $candLastName . '_' . $candFirstName . '.pdf';
             updPdfPath($tpiChoosen, $format);
 
-            require_once 'pdf.php';
-        }
 
-        if (!empty($criterions)){
-            updCriterions($tpiChoosen, $newCrit);
-        }
-        else{
-            addCrit($tpiChoosen, $newCrit);
+            try {
+                ob_start();
+
+                require_once 'printValidation.php';
+
+                $exp = ob_get_clean();
+
+                $html2pdf = new Html2Pdf('P', 'A4', 'fr');
+                $html2pdf->pdf->SetDisplayMode('fullpage');
+                $html2pdf->writeHTML($exp);
+                $html2pdf->output(__DIR__ . '/../pdf/' . $format, 'F');
+            } catch (Html2PdfException $e) {
+                $html2pdf->clean();
+
+                $formatter = new ExceptionFormatter($e);
+                echo $formatter->getHtmlMessage();
+            }
+
         }
 
         header('Location: ?action=displayValidationTPI');
@@ -159,8 +213,4 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
 }else{
     header('Location: ?action=home');
     exit;
-}
-
-if ($pdf == 'true') {
-
 }
