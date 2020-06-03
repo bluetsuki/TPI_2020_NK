@@ -14,7 +14,7 @@ $dateStart = $tabParams[wishesSessionStart];
 $dateEnd = $tabParams[wishesSessionEnd];
 
 $form = <<<FORMPARAM
-<form class="mt-4" action="?action=formParams" method="POST">
+<form class="mt-4" action="?action=editParam" method="POST">
     <div class="row">
         <div class="form-group col-4">
             <label for="dateStart">Date de début</label>
@@ -44,8 +44,8 @@ if ($btn == 'send') {
 
     updParam(nbExpertMax, $newNbExpMax);
     updParam(wishesSessionStart, $newDateStart);
-    updParam(wischesSessionEnd, $newDateEnd);
+    updParam(wishesSessionEnd, $newDateEnd);
 
-    header('Location: ?action=tpi');
+    header('Location: ?action=home');
     exit;
 }

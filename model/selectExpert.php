@@ -37,15 +37,11 @@ foreach (getTPIsById($tpiChoosen) as $value) {
         $tab .= '<div class="col-5">' . $key . '. ' . $name['expertLastName'] . ' ' . $name['expertFirstName'] . '</div>';
         if ($nbExpertAssigned < 2) {
             //@TODO if theres already a expert assigned (1 or 2), display the other one
-            $tab .= '<div class="col-5">';
             $tab .= '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '&idExpert=' . $name['userExpertID'] . '&assigned=1"><button class="ml-2 mb-2 btn btn-outline-success">Expert 1</button></a>';
             $tab .= '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '&idExpert=' . $name['userExpertID'] . '&assigned=2"><button class="ml-2 mb-2 btn btn-outline-success">Expert 2</button></a></div><br>';
-            $tab .= '</div>';
         }else{
-            $tab .= '<div class="col-5">';
             $tab .= '<a><button class="ml-2 mb-2 btn btn-secondary" disabled>Expert 1</button></a>';
             $tab .= '<a><button class="ml-2 mb-2 btn btn-secondary" disabled>Expert 2</button></a></div><br>';
-            $tab .= '</div>';
         }
     }
     $tab .= '</td></tr>';
