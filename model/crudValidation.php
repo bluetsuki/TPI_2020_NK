@@ -1,6 +1,11 @@
 <?php
 require_once 'connectDB.php';
 
+/**
+* add criterions in the table tpi_validations with the tpiID
+* @param int tpiID
+* @param string crit is the string of criterions with a delimiter ';'
+*/
 function addCrit($tpiID, $crit){
     $add = getConnexion();
     $req = $add->prepare("INSERT INTO tpi_validations (tpiID, criterions) VALUES (:tpiID, :crit)");

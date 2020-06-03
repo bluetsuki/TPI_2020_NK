@@ -15,6 +15,8 @@ if (in_array('Administrator', $_SESSION['roles'][0])) {
 }
 if (empty($tabValidation)) {
     $assigned = false;
+}else{
+    $assigned = true;
 }
 
 foreach ($tabValidation as $value) {

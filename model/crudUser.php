@@ -61,11 +61,3 @@ function getUserRights($roleName){
     $req->execute();
     return $req->fetchAll(PDO::FETCH_ASSOC);
 }
-
-function getRights(){
-    $rights = getConnexion();
-    $req = $rights->prepare("SELECT rightName FROM rights");
-    $req->bindParam(':roleName', $roleName, PDO::PARAM_STR);
-    $req->execute();
-    return $req->fetchAll(PDO::FETCH_ASSOC);
-}

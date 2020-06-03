@@ -107,7 +107,7 @@ function getTPIsOfExpert($idUser){
 }
 
 /**
-* get TPI information by it ID
+* get TPI information of the candidate by the tpiID
 * @param int id of the TPI
 */
 function getTPIInfoCandidate($id){
