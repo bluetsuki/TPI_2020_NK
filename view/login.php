@@ -23,7 +23,7 @@
                                     <form action="?action=login" method="POST">
                                         <div class="form-group">
                                             <label class="small mb-1" for="inputEmailAddress">Email</label>
-                                            <input class="form-control py-4" id="inputEmailAddress" name="inputEmailAddress" type="email" placeholder="Saisissez votre email" />
+                                            <input class="form-control py-4" id="inputEmailAddress" name="inputEmailAddress" type="email" placeholder="Saisissez votre email" value="<?= empty($email) ? '' : $email  ?>"/>
                                         </div>
                                         <div class="form-group">
                                             <label class="small mb-1" for="inputPassword">Mot de passe</label>
