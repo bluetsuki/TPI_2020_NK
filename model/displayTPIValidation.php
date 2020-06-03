@@ -1,28 +1,6 @@
 <?php
 $tabValidation = '';
 
-$tab = <<<TABVALIDATION
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nom</th>
-            <th scope="col">Prénom</th>
-            <th scope="col">Entreprise</th>
-            <th scope="col">Chef de projet</th>
-            <th scope="col">Date de début</th>
-            <th scope="col">Date de fin</th>
-            <th scope="col">Titre</th>
-            <th scope="col">Domaine</th>
-            <th scope="col">Statut</th>
-            <th scope="col">Expert 1</th>
-            <th scope="col">Expert 2</th>
-            <th scope="col">Validation</th>
-        </tr>
-    </thead>
-    <tbody>
-TABVALIDATION;
-
 if (in_array('Expert', $_SESSION['roles'][0])) {
     $tabValidation = getTPIsOfExpert($_SESSION['id']);
 }
@@ -62,4 +40,4 @@ foreach ($tabValidation as $value) {
         $tab .= '</tr>';
     }
 }
-$tab .= '</tbody></table>';
+$tab .= '';

@@ -92,7 +92,7 @@ foreach ($res as $key => $value) {
     echo '<td>' . $value['managerLastName'] . ' ' . $value['managerFirstName'] . '</td>';
     echo '<td>' . $value['sessionStart'] . '</td>';
     echo '<td>' . $value['sessionEnd'] . '</td>';
-    echo '<td><a href="pdf/' . $value['pdfPath'] . '">' . $value['title'] . '</a></td>';
+    echo '<td><a href="?action=displayPDF&link=pdf/' . $value['pdfPath'] . '">' . $value['title'] . '</a></td>';
     echo '<td>' . $value['cfcDomain'] . '</td>';
     echo '<td>' . $value['tpiStatus'] . '</td>';
     echo '<td>' . $value['expert1LastName'] . ' ' . $value['expert1FirstName'] . '</td>';

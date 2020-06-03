@@ -3,19 +3,7 @@ $tpiChoosen = FILTER_INPUT(INPUT_GET, 'idTPI', FILTER_SANITIZE_STRING);
 $idExpert = FILTER_INPUT(INPUT_GET, 'idExpert', FILTER_SANITIZE_STRING);
 $assigned = FILTER_INPUT(INPUT_GET, 'assigned', FILTER_SANITIZE_STRING);
 
-if (is_numeric($idExpert) && is_numeric($tpiChoosen) && is_numeric($assigned)) {
-    updWish($idExpert, $tpiChoosen, $assigned);
-    echo $assigned;
-    if ($assigned == '1') {
-        updTPIExp1($tpiChoosen, $idExpert);
-    }else {
-        updTPIExp2($tpiChoosen, $idExpert);
-    }
-}
-
 $tab = "";
-
-//@TODO put a button "validate the choice"
 
 $nbExpert = 0;
 foreach (getTPIsById($tpiChoosen) as $value) {
@@ -36,7 +24,6 @@ foreach (getTPIsById($tpiChoosen) as $value) {
         $tab .= '<div class="row">';
         $tab .= '<div class="col-5">' . $key . '. ' . $name['expertLastName'] . ' ' . $name['expertFirstName'] . '</div>';
         if ($nbExpertAssigned < 2) {
-            //@TODO if theres already a expert assigned (1 or 2), display the other one
             $tab .= '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '&idExpert=' . $name['userExpertID'] . '&assigned=1"><button class="ml-2 mb-2 btn btn-outline-success">Expert 1</button></a>';
             $tab .= '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '&idExpert=' . $name['userExpertID'] . '&assigned=2"><button class="ml-2 mb-2 btn btn-outline-success">Expert 2</button></a></div><br>';
         }else{

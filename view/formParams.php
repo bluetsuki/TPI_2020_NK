@@ -22,7 +22,25 @@
             <main>
                 <!-- Début du contenu de la page -->
                 <div class="container-fluid">
-                    <?= $form ?>
+                    <form class="mt-4" action="?action=editParam" method="POST">
+                        <div class="row">
+                            <div class="form-group col-4">
+                                <label for="dateStart">Date de début</label>
+                                <input class="form-control" type="text" id="dateStart" name="dateStart" value="$dateStart">
+                                <small id="dateStart" class="form-text text-muted">Format : aaaa-mm-jj hh:mm:ss</small>
+                            </div>
+                            <div class="form-group col-4">
+                                <label for="dateEnd">Date de fin</label>
+                                <input class="form-control" type="text" id="dateEnd" name="dateEnd" value="$dateEnd">
+                                <small id="dateEnd" class="form-text text-muted">Format : aaaa-mm-jj hh:mm:ss</small>
+                            </div>
+                            <div class="form-group col-4">
+                                <label for="nbExpMax">Nombre d'expert maximum par TPI</label>
+                                <input class="form-control" type="number" id="nbExpMax" name="nbExpMax" value="$nbExpMax">
+                            </div>
+                        </div>
+                    <button type="submit" name="send" value="send" class="btn btn-success">Enregistrer</button>
+                    </form>
                     <!-- fin du contenu de la page-->
                 </main>
                 <?php require_once 'footer.php'; ?>
