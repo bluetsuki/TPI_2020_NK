@@ -1,5 +1,6 @@
 <?php
 $tabValidation = '';
+$tab = '';
 
 if (in_array('Expert', $_SESSION['roles'][0])) {
     $tabValidation = getTPIsOfExpert($_SESSION['id']);
@@ -11,6 +12,9 @@ if (in_array('Manager', $_SESSION['roles'][0])) {
 
 if (in_array('Administrator', $_SESSION['roles'][0])) {
     $tabValidation = getTPIsWExpert();
+}
+if (empty($tabValidation)) {
+    $assigned = false;
 }
 
 foreach ($tabValidation as $value) {
@@ -40,4 +44,3 @@ foreach ($tabValidation as $value) {
         $tab .= '</tr>';
     }
 }
-$tab .= '';

@@ -44,6 +44,9 @@
                             <?= $tab ?>
                         </tbody>
                     </table>
+                    <div class="mx-auto" style="width: 400px;">
+                        <?= !$assigned ? '<h3 class="text-danger">Vous êtes assigné à aucun TPI</h3>' : ''?>
+                    </div>
                 </div>
                 <!-- fin du contenu de la page-->
             </main>
