@@ -23,12 +23,16 @@ $tab = <<<TABVALIDATION
     <tbody>
 TABVALIDATION;
 
-if (in_array('Expert', $_SESSION['roles'][0]) || in_array('Manager', $_SESSION['roles'][0])) {
-    $tabValidation = getTPIsOfUser($_SESSION['id']);
+if (in_array('Expert', $_SESSION['roles'][0])) {
+    $tabValidation = getTPIsOfExpert($_SESSION['id']);
+}
+
+if (in_array('Manager', $_SESSION['roles'][0])) {
+    $tabValidation = getTPIsOfManager($_SESSION['id']);
 }
 
 if (in_array('Administrator', $_SESSION['roles'][0])) {
-    $tabValidation = getTPIs();
+    $tabValidation = getTPIsWExpert();
 }
 
 foreach ($tabValidation as $value) {
@@ -46,11 +50,13 @@ foreach ($tabValidation as $value) {
         $tab .= '<td>'. $value['tpiStatus'] .'</td>';
         $tab .= '<td>'. $value['expert1LastName'] . ' ' . $value['expert1FirstName'] .'</td>';
         $tab .= '<td>'. $value['expert2LastName'] . ' ' . $value['expert2FirstName'] .'</td>';
-        if (in_array('Expert', $_SESSION['roles'][0])){
+        if (!in_array('Candidate', $_SESSION['roles'][0])){
             if ($value['userExpert1ID'] == $_SESSION['id']) {
-                $tab .= '<td><a href="?action=editValidation&tpiID=' . $value['tpiID'] . '&expert=1"><button class="btn btn-success">Valider</button></a></td>';
-            }else{
-                $tab .= '<td><a href="?action=editValidation&tpiID=' . $value['tpiID'] . '&expert=2"><button class="btn btn-success">Valider</button></a></td>';
+                $tab .= '<td><a href="?action=checkValidation&tpiID=' . $value['tpiID'] . '&expert=1"><button class="btn btn-success">Voir validation</button></a></td>';
+            } elseif ($value['userExpert2ID'] == $_SESSION['id']){
+                $tab .= '<td><a href="?action=checkValidation&tpiID=' . $value['tpiID'] . '&expert=2"><button class="btn btn-success">Voir validation</button></a></td>';
+            } else{
+                $tab .= '<td><a href="?action=checkValidation&tpiID=' . $value['tpiID'] . '"><button class="btn btn-success">Voir validation</button></a></td>';
             }
         }
         $tab .= '</tr>';

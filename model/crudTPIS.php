@@ -70,10 +70,34 @@ function getTPIsById($id){
 }
 
 /**
-* get all TPIs of the user
-* @param int id of the TPI
+* get all TPIs that has experts assigned
 */
-function getTPIsOfUser($idUser){
+function getTPIsWExpert(){
+    $tpi = getConnexion();
+    $sql = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, userExpert2ID, pdfPath, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE userExpert1ID IS NOT NULL AND userExpert2ID IS NOT NULL ORDER BY tpiID";
+    $req = $tpi->prepare($sql);
+    $req->execute();
+    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+* get all TPIs of the manager
+* @param int id of the manager
+*/
+function getTPIsOfManager($idUser){
+    $tpi = getConnexion();
+    $sql = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, userExpert2ID, pdfPath, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE userManagerID = :idUser AND userExpert1ID IS NOT NULL AND userExpert2ID IS NOT NULL ORDER BY tpiID";
+    $req = $tpi->prepare($sql);
+    $req->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+    $req->execute();
+    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+* get all TPIs of the expert
+* @param int id of expert
+*/
+function getTPIsOfExpert($idUser){
     $tpi = getConnexion();
     $sql = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, userExpert2ID, pdfPath, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE userExpert1ID = :idUser OR userExpert2ID = :idUser";
     $req = $tpi->prepare($sql);

@@ -10,10 +10,7 @@ $btn = FILTER_INPUT(INPUT_POST, 'valid', FILTER_SANITIZE_STRING);
 $assignedExpert = FILTER_INPUT(INPUT_GET, 'expert', FILTER_SANITIZE_STRING);
 $error = '';
 
-if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
-
-    $tpiInfo = getTPIInfoCandidate($tpiChoosen);
-    $sign = getSignExpert($tpiChoosen);
+if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0]) || in_array('Administrator', $_SESSION['roles'][0]) || in_array('Manager', $_SESSION['roles'][0])) {
 
     $validation_criterions = array(
         "Le nombre d'heures estimés est en accord avec le règlement. (70-90 heures)",
@@ -87,7 +84,8 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
     Expert 2 : $expert2Sign
     </tr>
     FORMVALID;
-    if (in_array('Expert', $_SESSION['roles'][0]) || in_array('Administrator', $_SESSION['roles'][0])) {
+
+    if (in_array('validateTPIs', $_SESSION['rights'][0])) {
         $form .= '<a href="?action=editParam&tpiID=$tpiChoosen"><button name="valid" value="valid" class="btn btn-success float-right">Valider</button></a></form>';
     }
 
@@ -103,19 +101,22 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
 
         $newCrit = implode(';', $tabNewCrit);
 
-        if (!empty($criterions)){
+        if (!empty($criterions[0])){
             updCriterions($tpiChoosen, $newCrit);
         }
         else{
             addCrit($tpiChoosen, $newCrit);
         }
 
+        updComment($tpiChoosen, $newComment);
+
         if (in_array('non', $tabNewCrit)) {
             updStatus($tpiChoosen, 'draft');
+            updCriterions($tpiChoosen, $newCrit);
             updExpertSign($tpiChoosen, '', 'expert1Signature');
             updExpertSign($tpiChoosen, '', 'expert2Signature');
         }else{
-            updComment($tpiChoosen, $newComment);
+            updStatus($tpiChoosen, 'submitted');
             if ($assignedExpert == '1') {
                 updExpertSign($tpiChoosen, date('Y-m-d H:i:s'), 'expert1Signature');
             }else{
@@ -123,7 +124,9 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
             }
         }
 
-        $tabValidation = getValidation($tpiChoosen)[0];
+        if (!empty(getValidation($tpiChoosen))) {
+            $tabValidation = getValidation($tpiChoosen)[0];
+        }
 
         if ($tabValidation['criterions'] != $newCrit) {
             updExpertSign($tpiChoosen, '', 'expert1Signature');
@@ -138,6 +141,10 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
         if ($tabValidation['expert1Signature'] != '' && $tabValidation['expert2Signature'] != '') {
             updStatus($tpiChoosen, 'valid');
 
+            $tpiInfo = getTPIInfoCandidate($tpiChoosen);
+            $sign = getSignExpert($tpiChoosen);
+
+            $year = $tpiInfo[0]['year'];
             $title = $tpiInfo[0]['title'];
             $domain = $tpiInfo[0]['cfcDomain'];
             $dateStart = explode(' ', $tpiInfo[0]['sessionStart']);
@@ -211,6 +218,6 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0])) {
         exit;
     }
 }else{
-    header('Location: ?action=home');
-    exit;
+    // header('Location: ?action=home');
+    // exit;
 }
