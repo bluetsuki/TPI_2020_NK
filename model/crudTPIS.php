@@ -112,9 +112,9 @@ function getTPIsOfExpert($idUser){
 */
 function getTPIInfoCandidate($id){
     $tpi = getConnexion();
-    $sql = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName, um.companyName as managerCompagny, um.phone as managerPhone, um.email as managerMail, uc.phone as candidatePhone, uc.email as candidateMail, ue1.phone as expert1Phone, ue1.email as expert1Mail, ue2.phone as expert2Phone, ue2.email as expert2Mail, description FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE tpiID = :id";
+    $sql = "SELECT tpiID, year, tpiStatus, title, cfcDomain, sessionStart, sessionEnd, presentationDate, workplace, userCandidateID, userManagerID, userExpert1ID, userExpert2ID, uc.LastName AS candidateLastName, uc.FirstName AS candidateFirstName, um.LastName AS managerLastName, um.FirstName AS managerFirstName, ue1.LastName AS expert1LastName, ue1.FirstName AS expert1FirstName, ue2.LastName AS expert2LastName, ue2.FirstName AS expert2FirstName, tpiStatus, submissionDate, uc.companyName, um.companyName as managerCompagny, um.phone as managerPhone, um.email as managerMail, uc.phone as candidatePhone, uc.email as candidateMail, ue1.phone as expert1Phone, ue1.email as expert1Mail, ue2.phone as expert2Phone, ue2.email as expert2Mail, description FROM tpis LEFT JOIN users AS uc ON userCandidateID = uc.userID LEFT JOIN users AS um ON userManagerID = um.userID LEFT JOIN users AS ue1 ON userExpert1ID = ue1.userID LEFT JOIN users AS ue2 ON userExpert2ID = ue2.userID WHERE tpiID = :id";
     $req = $tpi->prepare($sql);
     $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
-    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
+    return $res = $req->fetch();
 }

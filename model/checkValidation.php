@@ -12,6 +12,11 @@ $error = '';
 
 if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0]) || in_array('Administrator', $_SESSION['roles'][0]) || in_array('Manager', $_SESSION['roles'][0])) {
 
+    $tpiInfo = getTPIInfoCandidate($tpiChoosen);
+
+    $expert1Name = $tpiInfo['expert1LastName'] . ' ' . $tpiInfo['expert1FirstName'];
+    $expert2Name = $tpiInfo['expert2LastName'] . ' ' . $tpiInfo['expert2FirstName'];
+
     $validation_criterions = array(
         "Le nombre d'heures estimés est en accord avec le règlement. (70-90 heures)",
         "L'énoncé est entièrement rédigé par le supérieur du candidat.",
@@ -55,11 +60,8 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0]) || in_array('Administ
 
     foreach ($validation_criterions as $key => $value) {
         $form .= '<tr><td>' . $value . '</td>';
-        $form .= '<td><select class="form-control" name="answer' . $key . '">';
+        $form .= '<td><select class="form-control" id="answer" name="answer' . $key . '">';
         $form .= "<option></option>";
-        $form .= "<option ";
-        $form .= $criterions[$key] == 'n/a' ? 'selected' : '';
-        $form .= ">n/a</option>";
 
         $form .= "<option ";
         $form .= $criterions[$key] == 'oui' ? 'selected' : '';
@@ -68,6 +70,10 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0]) || in_array('Administ
         $form .= "<option ";
         $form .= $criterions[$key] == 'non' ? 'selected' : '';
         $form .= ">non</option>";
+
+        $form .= "<option ";
+        $form .= $criterions[$key] == 'n/a' ? 'selected' : '';
+        $form .= ">n/a</option>";
 
         $form .= '</select></td>';
     }
@@ -80,8 +86,8 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0]) || in_array('Administ
     <textarea style="resize: none;" cols="100" class="form-control" id="comment" name="comment">$comment</textarea>
     </div>
     <tr>
-    Expert 1 : $expert1Sign <br>
-    Expert 2 : $expert2Sign
+    $expert1Name : $expert1Sign <br>
+    $expert2Name : $expert2Sign
     </tr>
     FORMVALID;
 
@@ -144,46 +150,46 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0]) || in_array('Administ
             $tpiInfo = getTPIInfoCandidate($tpiChoosen);
             $sign = getSignExpert($tpiChoosen);
 
-            $year = $tpiInfo[0]['year'];
-            $title = $tpiInfo[0]['title'];
-            $domain = $tpiInfo[0]['cfcDomain'];
-            $dateStart = explode(' ', $tpiInfo[0]['sessionStart']);
-            $dateEnd = explode(' ', $tpiInfo[0]['sessionEnd']);
+            $year = $tpiInfo['year'];
+            $title = $tpiInfo['title'];
+            $domain = $tpiInfo['cfcDomain'];
+            $dateStart = explode(' ', $tpiInfo['sessionStart']);
+            $dateEnd = explode(' ', $tpiInfo['sessionEnd']);
 
             $start = $dateStart[0];
             $end = $dateEnd[0];
             $hourStart = explode(':', $dateStart[1])[0] . ':' . explode(':', $dateStart[1])[1];
             $hourEnd = explode(':', $dateEnd[1])[0] . ':' . explode(':', $dateEnd[1])[1];
 
-            $workplace = $tpiInfo[0]['workplace'];
+            $workplace = $tpiInfo['workplace'];
 
-            $candLastName = $tpiInfo[0]['candidateLastName'];
-            $candFirstName = $tpiInfo[0]['candidateFirstName'];
-            $candPhone = $tpiInfo[0]['candidatePhone'];
-            $candMail = $tpiInfo[0]['candidateMail'];
+            $candLastName = $tpiInfo['candidateLastName'];
+            $candFirstName = $tpiInfo['candidateFirstName'];
+            $candPhone = $tpiInfo['candidatePhone'];
+            $candMail = $tpiInfo['candidateMail'];
 
-            $managerCompagny = $tpiInfo[0]['managerCompagny'];
-            $managerLastName = $tpiInfo[0]['managerLastName'];
-            $managerFirstName = $tpiInfo[0]['managerFirstName'];
-            $managerPhone = $tpiInfo[0]['managerPhone'];
-            $managerMail = $tpiInfo[0]['managerMail'];
+            $managerCompagny = $tpiInfo['managerCompagny'];
+            $managerLastName = $tpiInfo['managerLastName'];
+            $managerFirstName = $tpiInfo['managerFirstName'];
+            $managerPhone = $tpiInfo['managerPhone'];
+            $managerMail = $tpiInfo['managerMail'];
 
-            $expert1LastName = $tpiInfo[0]['expert1LastName'];
-            $expert1FirstName = $tpiInfo[0]['expert1FirstName'];
-            $expert1Phone = $tpiInfo[0]['expert1Phone'];
-            $expert1Mail = $tpiInfo[0]['expert1Mail'];
+            $expert1LastName = $tpiInfo['expert1LastName'];
+            $expert1FirstName = $tpiInfo['expert1FirstName'];
+            $expert1Phone = $tpiInfo['expert1Phone'];
+            $expert1Mail = $tpiInfo['expert1Mail'];
 
-            $expert2LastName = $tpiInfo[0]['expert2LastName'];
-            $expert2FirstName = $tpiInfo[0]['expert2FirstName'];
-            $expert2Phone = $tpiInfo[0]['expert2Phone'];
-            $expert2Mail = $tpiInfo[0]['expert2Mail'];
+            $expert2LastName = $tpiInfo['expert2LastName'];
+            $expert2FirstName = $tpiInfo['expert2FirstName'];
+            $expert2Phone = $tpiInfo['expert2Phone'];
+            $expert2Mail = $tpiInfo['expert2Mail'];
 
-            $expert1Sign = explode(' ', $sign[0]['expert1Signature']);
+            $expert1Sign = explode(' ', $sign['expert1Signature']);
             $expert1SignDate = $expert1Sign[0];
             $expert1HourSign = explode(':', $expert1Sign[1])[0] . ':' . explode(':', $expert1Sign[1])[1];
             $expert1Valid = "$expert1LastName $expert1FirstName : Validé le $expert1SignDate à $expert1HourSign";
 
-            $expert2Sign = explode(' ', $sign[0]['expert2Signature']);
+            $expert2Sign = explode(' ', $sign['expert2Signature']);
             $expert2SignDate = $expert1Sign[0];
             $expert2HourSign = explode(':', $expert2Sign[1])[0] . ':' . explode(':', $expert2Sign[1])[1];
             $expert2Valid = "$expert2LastName $expert2FirstName : Validé le $expert2SignDate à $expert2HourSign";

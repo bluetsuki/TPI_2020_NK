@@ -31,7 +31,7 @@ function getSignExpert($id){
     $req = $tpi->prepare("SELECT expert1Signature, expert2Signature FROM tpi_validations WHERE tpiID = :id");
     $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
-    return $res = $req->fetchAll(PDO::FETCH_ASSOC);
+    return $res = $req->fetch();
 }
 
 /**
