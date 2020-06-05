@@ -84,76 +84,77 @@ $req->execute();
 $res = $req->fetchAll(PDO::FETCH_ASSOC);
 //Display the table in the page tabTPI
 foreach ($res as $key => $value) {
-    echo '<tr>';
-    echo '<th scope="row">' . $value['tpiID'] . '</th>';
-    echo '<td>' . $value['candidateLastName'] . '</td>';
-    echo '<td>' . $value['candidateFirstName'] . '</td>';
-    echo '<td>' . $value['companyName'] . '</td>';
-    echo '<td>' . $value['managerLastName'] . ' ' . $value['managerFirstName'] . '</td>';
-    echo '<td>' . $value['sessionStart'] . '</td>';
-    echo '<td>' . $value['sessionEnd'] . '</td>';
-    echo '<td><a target="_blank" href="?action=displayPDF&link=pdf/' . $value['pdfPath'] . '">' . $value['title'] . '</a></td>';
-    echo '<td>' . $value['cfcDomain'] . '</td>';
-    echo '<td>' . $value['tpiStatus'] . '</td>';
-    echo '<td>' . $value['expert1LastName'] . ' ' . $value['expert1FirstName'] . '</td>';
-    echo '<td>' . $value['expert2LastName'] . ' ' . $value['expert2FirstName'] . '</td>';
-    echo '<td>';
-    $names = getWishesByTpiIdAssignedAssignedNull($value['tpiID']);
-    $nbExpert = count($names);
-    foreach ($names as $key => $name) {
-        $key++;
-        echo $key . '. ' . $name['expertLastName'] . ' ' . $name['expertFirstName'] . '<br>';
-    }
-    echo '</td>';
-
-    //If the number of expert choices is inferior of the number max of expert per TPI (in table params)
-    if ($nbExpert < getParamsByName('NbMaxExpertForOneCandidate')[0]['value']) {
+    if ($value['year'] == date('Y')) {
+        echo '<tr>';
+        echo '<th scope="row">' . $value['tpiID'] . '</th>';
+        echo '<td>' . $value['candidateLastName'] . '</td>';
+        echo '<td>' . $value['candidateFirstName'] . '</td>';
+        echo '<td>' . $value['companyName'] . '</td>';
+        echo '<td>' . $value['managerLastName'] . ' ' . $value['managerFirstName'] . '</td>';
+        echo '<td>' . $value['sessionStart'] . '</td>';
+        echo '<td>' . $value['sessionEnd'] . '</td>';
+        echo '<td><a target="_blank" href="?action=displayPDF&link=pdf/' . $value['pdfPath'] . '">' . $value['title'] . '</a></td>';
+        echo '<td>' . $value['cfcDomain'] . '</td>';
+        echo '<td>' . $value['tpiStatus'] . '</td>';
+        echo '<td>' . $value['expert1LastName'] . ' ' . $value['expert1FirstName'] . '</td>';
+        echo '<td>' . $value['expert2LastName'] . ' ' . $value['expert2FirstName'] . '</td>';
         echo '<td>';
-        if (in_array('Expert', $_SESSION['roles'][0])) {
-            //check if the date is between the date define by the admin
-            if (date('Y-m-d H:i:m') >= getParamsByName('WishesSessionStart')[0]['value'] && date('Y-m-d H:i:m') <= getParamsByName('WishesSessionEnd')[0]['value']) {
-                if (getWishUser($_SESSION['id'], $value['tpiID'])) {
-                    echo '<a href="?action=displayTPI&idTPI=' . $value['tpiID'] . '&rm=true"><button class="btn btn-danger">Annuler</button></a>';
-                }else{
-                    if (empty($value['expert1LastName']) || empty($value['expert2LastName'])) {
-                        echo '<a href="?action=displayTPI&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a>';
+        $names = getWishesByTpiIdAssignedAssignedNull($value['tpiID']);
+        $nbExpert = count($names);
+        foreach ($names as $key => $name) {
+            $key++;
+            echo $key . '. ' . $name['expertLastName'] . ' ' . $name['expertFirstName'] . '<br>';
+        }
+        echo '</td>';
+
+        //If the number of expert choices is inferior of the number max of expert per TPI (in table params)
+        if ($nbExpert < getParamsByName('NbMaxExpertForOneCandidate')[0]['value']) {
+            echo '<td>';
+            if (in_array('Expert', $_SESSION['roles'][0])) {
+                //check if the date is between the date define by the admin
+                if (date('Y-m-d H:i:m') >= getParamsByName('WishesSessionStart')[0]['value'] && date('Y-m-d H:i:m') <= getParamsByName('WishesSessionEnd')[0]['value']) {
+                    if (getWishUser($_SESSION['id'], $value['tpiID'])) {
+                        echo '<a href="?action=displayTPI&idTPI=' . $value['tpiID'] . '&rm=true"><button class="btn btn-danger">Annuler</button></a>';
                     }else{
-                        echo '<a><button class="btn btn-secondary" disabled>Choisir</button></a>';
+                        if (empty($value['expert1LastName']) || empty($value['expert2LastName'])) {
+                            echo '<a href="?action=displayTPI&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir</button></a>';
+                        }else{
+                            echo '<a><button class="btn btn-secondary" disabled>Choisir</button></a>';
+                        }
                     }
-                }
-            }else{
-                echo '<a><button class="btn btn-secondary" disabled>Session fermée</button></a>';
-            }
-        }
-
-        if (in_array('Administrator', $_SESSION['roles'][0])){
-            if (empty($value['expert1LastName']) || empty($value['expert2LastName'])) {
-                echo '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir Expert</button></a>';
-            }
-            else{
-                echo '<a><button class="btn btn-secondary" disabled>Choisir Expert</button></a>';
-            }
-        }
-        echo '</td>';
-    }else{
-        echo '<td>';
-        if (in_array('Expert', $_SESSION['roles'][0])) {
-            if (date('Y-m-d H:i:m') >= getParamsByName('WishesSessionStart')[0]['value'] && date('Y-m-d H:i:m') <= getParamsByName('WishesSessionEnd')[0]['value']) {
-                if (getWishUser($_SESSION['id'], $value['tpiID'])) {
-                    echo '<a href="?action=displayTPI&idTPI=' . $value['tpiID'] . '&rm=true"><button class="btn btn-danger">Annuler</button></a>';
                 }else{
-                    echo '<button class="btn btn-secondary" disabled>Choisir</button>';
+                    echo '<a><button class="btn btn-secondary" disabled>Session fermée</button></a>';
                 }
-            }else{
-                echo '<a><button class="btn btn-secondary" disabled>Session fermée</button></a>';
-
             }
-        }
-        if (in_array('Administrator', $_SESSION['roles'][0])){
-            echo '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-secondary">Choisir Expert</button></a>';
-        }
-        echo '</td>';
-    }
-    echo '</tr>';
 
+            if (in_array('Administrator', $_SESSION['roles'][0])){
+                if (empty($value['expert1LastName']) || empty($value['expert2LastName'])) {
+                    echo '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-success">Choisir Expert</button></a>';
+                }
+                else{
+                    echo '<a><button class="btn btn-secondary" disabled>Choisir Expert</button></a>';
+                }
+            }
+            echo '</td>';
+        }else{
+            echo '<td>';
+            if (in_array('Expert', $_SESSION['roles'][0])) {
+                if (date('Y-m-d H:i:m') >= getParamsByName('WishesSessionStart')[0]['value'] && date('Y-m-d H:i:m') <= getParamsByName('WishesSessionEnd')[0]['value']) {
+                    if (getWishUser($_SESSION['id'], $value['tpiID'])) {
+                        echo '<a href="?action=displayTPI&idTPI=' . $value['tpiID'] . '&rm=true"><button class="btn btn-danger">Annuler</button></a>';
+                    }else{
+                        echo '<button class="btn btn-secondary" disabled>Choisir</button>';
+                    }
+                }else{
+                    echo '<a><button class="btn btn-secondary" disabled>Session fermée</button></a>';
+
+                }
+            }
+            if (in_array('Administrator', $_SESSION['roles'][0])){
+                echo '<a href="?action=chooseExpert&idTPI=' . $value['tpiID'] . '"><button class="btn btn-secondary">Choisir Expert</button></a>';
+            }
+            echo '</td>';
+        }
+        echo '</tr>';
+    }
 }
