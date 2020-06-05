@@ -60,24 +60,23 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0]) || in_array('Administ
 
     foreach ($validation_criterions as $key => $value) {
         $form .= '<tr><td>' . $value . '</td>';
-        $form .= '<td><select class="form-control" id="answer" name="answer' . $key . '">';
+        $form .= '<td><select required class="form-control" name="answer' . $key . '">';
         $form .= "<option></option>";
 
-        $form .= "<option ";
+        $form .= '<option value="oui"';
         $form .= $criterions[$key] == 'oui' ? 'selected' : '';
         $form .= ">oui</option>";
 
-        $form .= "<option ";
+        $form .= '<option value="non"';
         $form .= $criterions[$key] == 'non' ? 'selected' : '';
         $form .= ">non</option>";
 
-        $form .= "<option ";
+        $form .= '<option value="n/a"';
         $form .= $criterions[$key] == 'n/a' ? 'selected' : '';
         $form .= ">n/a</option>";
 
         $form .= '</select></td>';
     }
-    //@TODO get the name of the 2 experts
     $form .= <<<FORMVALID
     </tr>
     </table>
@@ -224,6 +223,6 @@ if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0]) || in_array('Administ
         exit;
     }
 }else{
-    // header('Location: ?action=home');
-    // exit;
+    header('Location: ?action=home');
+    exit;
 }
