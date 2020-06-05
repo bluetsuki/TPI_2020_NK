@@ -6,7 +6,7 @@ $pagesName_distribution_byRight = [
 ];
 
 $pagesName_validation_byRight = [
-    "displayValidationTPI" => "Afficher les Validations"
+    "displayValidationTPI" => "Afficher les validations"
 ];
 
 ?>

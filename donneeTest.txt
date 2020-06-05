@@ -22,7 +22,7 @@ mdp : mm1234
 
 Administrator :
 ID : 275
-Mail : gerald.gallay@experts.ofpc.ch	
+Mail : gerald.gallay@experts.ofpc.ch
 mdp : gg1234
 
 Manager : 

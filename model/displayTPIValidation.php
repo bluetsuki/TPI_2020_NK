@@ -1,6 +1,6 @@
 <?php
-$tabValidation = '';
 $tab = '';
+$tabValidation = '';
 
 if (in_array('Expert', $_SESSION['roles'][0])) {
     $tabValidation = getTPIsOfExpert($_SESSION['id']);
