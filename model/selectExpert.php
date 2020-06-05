@@ -1,11 +1,7 @@
 <?php
-$tpiChoosen = FILTER_INPUT(INPUT_GET, 'idTPI', FILTER_SANITIZE_STRING);
-$idExpert = FILTER_INPUT(INPUT_GET, 'idExpert', FILTER_SANITIZE_STRING);
-$assigned = FILTER_INPUT(INPUT_GET, 'assigned', FILTER_SANITIZE_STRING);
-
 $tab = "";
-
 $nbExpert = 0;
+
 foreach (getTPIsById($tpiChoosen) as $value) {
     $tab .= '<td>' . $value['tpiID'] . '</td>';
     $tab .= '<td>' . $value['candidateLastName'] . '</td>';
