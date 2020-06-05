@@ -36,7 +36,7 @@ function rmWish($idExpert, $id){
 * get all wishes of the TPI by it ID that hasn't been assigned
 * @param int id of the TPI
 */
-function getWishesByTpiIdAssignedNull($id){
+function getWishesByTpiIdAssignedAssignedNull($id){
     $wishes = getConnexion();
     $req = $wishes->prepare("SELECT userExpertID, lastName as expertLastName, firstName as expertFirstName, `tpiID`, assigned
         FROM `wishes` AS w
@@ -52,7 +52,7 @@ function getWishesByTpiIdAssignedNull($id){
 * get all wishes of the TPI by it ID that has been assigned
 * @param int id of the TPI
 */
-function getWishesByTpiId($id){
+function getWishesByTpiIdAssigned($id){
     $wishes = getConnexion();
     $req = $wishes->prepare("SELECT userExpertID, lastName as expertLastName, firstName as expertFirstName, `tpiID`, assigned
         FROM `wishes` AS w
@@ -62,6 +62,18 @@ function getWishesByTpiId($id){
     $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
     return $res = $req->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+* get all wishes of the TPI by it ID
+* @param int id of the TPI
+*/
+function getWishesByTpiId($id){
+    $wishes = getConnexion();
+    $req = $wishes->prepare("SELECT tpiID, assigned FROM `wishes` WHERE tpiID = :id");
+    $req->bindParam(':id', $id, PDO::PARAM_INT);
+    $req->execute();
+    return $res = $req->fetch(PDO::FETCH_KEY_PAIR);
 }
 
 /**

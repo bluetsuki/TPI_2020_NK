@@ -98,7 +98,7 @@ foreach ($res as $key => $value) {
     echo '<td>' . $value['expert1LastName'] . ' ' . $value['expert1FirstName'] . '</td>';
     echo '<td>' . $value['expert2LastName'] . ' ' . $value['expert2FirstName'] . '</td>';
     echo '<td>';
-    $names = getWishesByTpiIdAssignedNull($value['tpiID']);
+    $names = getWishesByTpiIdAssignedAssignedNull($value['tpiID']);
     $nbExpert = count($names);
     foreach ($names as $key => $name) {
         $key++;
