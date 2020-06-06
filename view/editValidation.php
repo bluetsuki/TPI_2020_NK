@@ -22,6 +22,7 @@
             <main>
                 <!-- Début du contenu de la page -->
                 <div class="container-fluid">
+                    <?= $error ?>
                     <?= $form ?>
                 </div>
                 <!-- fin du contenu de la page-->
