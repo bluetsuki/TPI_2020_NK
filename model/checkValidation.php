@@ -1,10 +1,4 @@
 <?php
-require __DIR__.'/../vendor/autoload.php';
-
-use Spipu\Html2Pdf\Html2Pdf;
-use Spipu\Html2Pdf\Exception\Html2PdfException;
-use Spipu\Html2Pdf\Exception\ExceptionFormatter;
-
 if (in_array($_SESSION['id'], getTPIsById($tpiChoosen)[0]) || in_array('Administrator', $_SESSION['roles'][0]) || in_array('Manager', $_SESSION['roles'][0])) {
 
     $tpiInfo = getTPIInfoCandidate($tpiChoosen);

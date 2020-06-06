@@ -1,4 +1,10 @@
 <?php
+require __DIR__.'/../vendor/autoload.php';
+
+use Spipu\Html2Pdf\Html2Pdf;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+
 $tpiChoosen = FILTER_INPUT(INPUT_GET, 'tpiID', FILTER_SANITIZE_NUMBER_INT);
 $btn = FILTER_INPUT(INPUT_POST, 'valid', FILTER_SANITIZE_STRING);
 $assignedExpert = FILTER_INPUT(INPUT_GET, 'expert', FILTER_SANITIZE_STRING);
@@ -165,7 +171,7 @@ if ($btn == 'valid') {
             try {
                 ob_start();
 
-                require_once 'printValidation.php';
+                require_once 'model/printValidation.php';
 
                 $exp = ob_get_clean();
 
