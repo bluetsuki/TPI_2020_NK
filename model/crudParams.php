@@ -6,8 +6,8 @@
 
 /**
 * update the value by the name given
-* @param string name of the param
-* @param string value of the param
+* @param string $name of the param
+* @param string $value of the param
 */
 function updParam($name, $value) {
     $upd = getConnexion();
@@ -29,7 +29,7 @@ function getParams() {
 
 /**
 * get the param by the name
-* @param string name of the value
+* @param string $name of the value
 */
 function getParamsByName($name) {
     $upd = getConnexion();

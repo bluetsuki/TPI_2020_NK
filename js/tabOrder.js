@@ -75,10 +75,10 @@ function reorder() {
 
     if (order.length > 0) {
         var jsonOrder = JSON.stringify(order);
-        var url = 'model/tabTPI.php?order=' + jsonOrder + "&page=" + page + "&limit=" + resultLimit;
+        var url = 'api/tabTPI.php?order=' + jsonOrder + "&page=" + page + "&limit=" + resultLimit;
     } else {
         var jsonOrder = JSON.stringify(order);
-        var url = 'model/tabTPI.php?page=' + page + "&limit=" + resultLimit;
+        var url = 'api/tabTPI.php?page=' + page + "&limit=" + resultLimit;
     }
 
     if (Object.keys(filter).length > 0) {

@@ -31,6 +31,23 @@ $validation_criterions = array(
 
 require_once 'model/crudTPIS.php';
 require_once 'model/crudValidation.php';
+require_once 'model/crudWishes.php';
+
+//Move the user if the TPI's status is valid or if the user isn't assigned to the TPI
+if (in_array('Expert', $_SESSION['roles'])) {
+    if (getTPIsById($tpiChoosen)[0]['tpiStatus'] == 'valid' || !(getWishesByTpiIdAssigned($tpiChoosen)[0]['userExpertID'] == $_SESSION['id'] || getWishesByTpiIdAssigned($tpiChoosen)[1]['userExpertID'] == $_SESSION['id'])  ) {
+        header('Location: ?action=displayValidationTPI');
+        exit;
+    }
+}
+
+//Move the user if the TPI's status is valid or if the user isn't assigned to the TPI
+if (in_array('Manager', $_SESSION['roles'])) {
+    if (getTPIsById($tpiChoosen)[0]['tpiStatus'] == 'valid' || getTPIsById($tpiChoosen)[0]['userManagerID'] != $_SESSION['id']) {
+        header('Location: ?action=displayValidationTPI');
+        exit;
+    }
+}
 
 for ($i = 0; $i < count($validation_criterions); $i++) {
     $criterions[] = '';
@@ -64,6 +81,13 @@ if ($btn == 'valid') {
 
     $newCrit = implode(';', $tabNewCrit);
 
+    if (!empty(getValidation($tpiChoosen))) {
+        if ($newCrit != $tabValidation['criterions']) {
+            updExpertSign($tpiChoosen, '', 'expert2Signature');
+            updExpertSign($tpiChoosen, '', 'expert1Signature');
+        }
+    }
+
     if (in_array('non', $tabNewCrit)) {
         $commentRequired = true;
         if (!empty($newComment)) {
@@ -75,8 +99,7 @@ if ($btn == 'valid') {
                 addCrit($tpiChoosen, $newCrit);
             }
             updComment($tpiChoosen, $newComment);
-            updExpertSign($tpiChoosen, '', 'expert1Signature');
-            updExpertSign($tpiChoosen, '', 'expert2Signature');
+
         }else{
             $error = '<div class="alert alert-danger mt-2">Le commentaire doit être renseigné pour les critères à non</div>';
         }

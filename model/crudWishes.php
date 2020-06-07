@@ -36,7 +36,7 @@ function rmWish($idExpert, $id){
 * get all wishes of the TPI by it ID that hasn't been assigned
 * @param int id of the TPI
 */
-function getWishesByTpiIdAssignedAssignedNull($id){
+function getWishesByTpiIdAssignedNull($id){
     $wishes = getConnexion();
     $req = $wishes->prepare("SELECT userExpertID, lastName as expertLastName, firstName as expertFirstName, `tpiID`, assigned
         FROM `wishes` AS w

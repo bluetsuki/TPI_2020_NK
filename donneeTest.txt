@@ -18,7 +18,7 @@ mdp : tn1234
 ID : 224
 Mail : monika.meier@prof.cfpt.ch
 mdp : mm1234
-
+Role : Manager et Experte
 
 Administrator :
 ID : 275

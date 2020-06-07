@@ -1,8 +1,8 @@
 <?php
 /**
-* Log the user with the email and check the password
-* @param string email of the user
-* @param string pwd of the user
+* Log the user with the email and check the password and add roles and rights to the session
+* @param string $email of the user
+* @param string $pwd of the user
 */
 function login($email, $pwd){
     $log = getConnexion();
@@ -40,7 +40,7 @@ function login($email, $pwd){
 
 /**
 * get the role of the user by it ID
-* @param int id of the user
+* @param int $id of the user
 */
 function getRole($id){
     $role = getConnexion();
@@ -52,7 +52,7 @@ function getRole($id){
 
 /**
 * get all user rights by the roleName
-* @param string rolename
+* @param string $roleName
 */
 function getUserRights($roleName){
     $role = getConnexion();

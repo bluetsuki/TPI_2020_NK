@@ -1,7 +1,7 @@
 <?php
-require_once 'connectDB.php';
-require_once 'crudWishes.php';
-require_once 'crudParams.php';
+require_once '../model/connectDB.php';
+require_once '../model/crudWishes.php';
+require_once '../model/crudParams.php';
 
 session_start();
 
@@ -99,7 +99,7 @@ foreach ($res as $key => $value) {
         echo '<td>' . $value['expert1LastName'] . ' ' . $value['expert1FirstName'] . '</td>';
         echo '<td>' . $value['expert2LastName'] . ' ' . $value['expert2FirstName'] . '</td>';
         echo '<td>';
-        $names = getWishesByTpiIdAssignedAssignedNull($value['tpiID']);
+        $names = getWishesByTpiIdAssignedNull($value['tpiID']);
         $nbExpert = count($names);
         foreach ($names as $key => $name) {
             $key++;
@@ -147,7 +147,6 @@ foreach ($res as $key => $value) {
                     }
                 }else{
                     echo '<a><button class="btn btn-secondary" disabled>Session fermée</button></a>';
-
                 }
             }
             if (in_array('Administrator', $_SESSION['roles'][0])){

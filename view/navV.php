@@ -9,6 +9,7 @@ $pagesName_validation_byRight = [
     "displayValidationTPI" => "Afficher les validations"
 ];
 
+
 ?>
 
 <div id="layoutSidenav_nav">
@@ -50,7 +51,7 @@ $pagesName_validation_byRight = [
         <div class="sb-sidenav-footer">
             <div class="small">Connecté en tant que:</div>
             <?= $_SESSION['name'] ?> <br>
-            <?php foreach($_SESSION["roles"][0] as $r) echo $r . ' '; ?>
+            <?php foreach($_SESSION["roles"] as $r) echo $r['roleName'] . ' '; ?>
         </div>
     </nav>
 </div>

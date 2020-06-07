@@ -8,8 +8,8 @@ require_once 'connectDB.php';
 
 /**
 * update the userExpert1ID by the ID given
-* @param int tpiID
-* @param int expertID
+* @param int $tpiID
+* @param int $expertID
 */
 function updTPIExp1($tpiID, $expertID) {
     $upd = getConnexion();
@@ -21,8 +21,8 @@ function updTPIExp1($tpiID, $expertID) {
 
 /**
 * update the userExpert1ID by the ID given
-* @param int tpiID
-* @param int expertID
+* @param int $tpiID
+* @param int $expertID
 */
 function updTPIExp2($tpiID, $expertID) {
     $upd = getConnexion();
@@ -34,14 +34,14 @@ function updTPIExp2($tpiID, $expertID) {
 
 /**
 * update the status of the TPI
-* @param int tpiID
-* @param int stat of the TPI
+* @param int $tpiId
+* @param int $status of the TPI
 */
-function updStatus($tpiId, $stat) {
+function updStatus($tpiId, $status) {
     $upd = getConnexion();
     $req = $upd->prepare("UPDATE `tpis` SET `tpiStatus` = :stat WHERE `tpiID` = :tpiID");
     $req->bindParam(":tpiID", $tpiId, PDO::PARAM_INT);
-    $req->bindParam(":stat", $stat, PDO::PARAM_STR);
+    $req->bindParam(":stat", $status, PDO::PARAM_STR);
     $req->execute();
 }
 
@@ -58,7 +58,7 @@ function getTPIs(){
 
 /**
 * get all TPIs by id
-* @param int id of the TPI
+* @param int $id of the TPI
 */
 function getTPIsById($id){
     $tpi = getConnexion();
@@ -82,7 +82,7 @@ function getTPIsWExpert(){
 
 /**
 * get all TPIs of the manager
-* @param int id of the manager
+* @param int $idUser of the manager
 */
 function getTPIsOfManager($idUser){
     $tpi = getConnexion();
@@ -95,7 +95,7 @@ function getTPIsOfManager($idUser){
 
 /**
 * get all TPIs of the expert
-* @param int id of expert
+* @param int $idUser of expert
 */
 function getTPIsOfExpert($idUser){
     $tpi = getConnexion();
@@ -108,7 +108,7 @@ function getTPIsOfExpert($idUser){
 
 /**
 * get TPI information of the candidate by the tpiID
-* @param int id of the TPI
+* @param int $id of the TPI
 */
 function getTPIInfoCandidate($id){
     $tpi = getConnexion();

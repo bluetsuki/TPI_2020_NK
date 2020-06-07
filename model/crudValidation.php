@@ -3,8 +3,8 @@ require_once 'connectDB.php';
 
 /**
 * add criterions in the table tpi_validations with the tpiID
-* @param int tpiID
-* @param string crit is the string of criterions with a delimiter ';'
+* @param int $tpiID
+* @param string $crit is the string of criterions with a delimiter ';'
 */
 function addCrit($tpiID, $crit){
     $add = getConnexion();
@@ -16,7 +16,7 @@ function addCrit($tpiID, $crit){
 
 /**
 * get TPI validation by it ID
-* @param int id of the TPI
+* @param int $id of the TPI
 */
 function getValidation($id){
     $tpi = getConnexion();
@@ -29,7 +29,7 @@ function getValidation($id){
 
 /**
 * get TPI signature by it ID
-* @param int id of the TPI
+* @param int $id of the TPI
 */
 function getSignExpert($id){
     $tpi = getConnexion();
@@ -41,8 +41,8 @@ function getSignExpert($id){
 
 /**
 * update the criterions of the TPI
-* @param int tpiID
-* @param string crit is the criterions of the TPI, the delimitation is ';'
+* @param int $tpiID
+* @param string $crit is the criterions of the TPI, the delimitation is ';'
 */
 function updCriterions($tpiID, $crit) {
     $upd = getConnexion();
@@ -52,6 +52,11 @@ function updCriterions($tpiID, $crit) {
     $req->execute();
 }
 
+/**
+* update the comment of the TPI
+* @param int $tpiID
+* @param string $comment is the comment of the TPI
+*/
 function updComment($tpiID, $comment) {
     $upd = getConnexion();
     $req = $upd->prepare("UPDATE `tpi_validations` SET `comment` = :comment WHERE `tpiID` = :tpiID");
@@ -60,6 +65,12 @@ function updComment($tpiID, $comment) {
     $req->execute();
 }
 
+/**
+* update the signature of the Expert define by the parameter
+* @param int $tpiID
+* @param string $sign is the signature of the Expert by the format 'Y-m-d H:i:s'
+* @param string $expert is use to define the expert 1 or 2
+*/
 function updExpertSign($tpiID, $sign, $expert) {
     $upd = getConnexion();
     $req = $upd->prepare("UPDATE `tpi_validations` SET $expert = :expertSign WHERE `tpiID` = :tpiID");
@@ -73,6 +84,11 @@ function updExpertSign($tpiID, $sign, $expert) {
     $req->execute();
 }
 
+/**
+* update the pdfPath of the TPI
+* @param int $tpiID
+* @param string $path is the path of the PDF by the format of 'Validation_TPI_YEAR_tpiID_CandidateName'
+*/
 function updPdfPath($tpiID, $path) {
     $upd = getConnexion();
     $req = $upd->prepare("UPDATE `tpi_validations` SET `pdfPath` = :pdfPath WHERE `tpiID` = :tpiID");

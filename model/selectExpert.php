@@ -13,7 +13,7 @@ foreach (getTPIsById($tpiChoosen) as $value) {
     $tab .= '<td><a href="pdf/Enonce_TPI_'. $value['year'] .'_'. $value['tpiID'] .'_'. $value['candidateLastName'] .'_'. $value['candidateFirstName'] .'.pdf">' . $value['title'] . '</a></td>';
     $tab .= '<td>' . $value['cfcDomain'] . '</td>';
     $tab .= '<td>';
-    $names = getWishesByTpiIdAssignedAssignedNull($value['tpiID']);
+    $names = getWishesByTpiIdAssignedNull($value['tpiID']);
     $nbExpertAssigned = count(getWishesByTpiIdAssigned($value['tpiID']));
     $expertAssigned = getWishesByTpiId($value['tpiID']);
     foreach ($names as $key => $name) {
