@@ -60,7 +60,7 @@
                             <th id="sessionEnd" onclick="setOrder(this)" scope="col">Date de fin</th>
                             <th id="title" onclick="setOrder(this)" scope="col">Titre</th>
                             <th id="cfcDomain" onclick="setOrder(this)" scope="col">Domaine</th>
-                            <th id="tpiStatus" onclick="setOrder(this)" scope="col">Status</th>
+                            <th id="tpiStatus" onclick="setOrder(this)" scope="col">Statut</th>
                             <th id="expert1LastName" onclick="setOrder(this)" scope="col">Expert 1</th>
                             <th id="expert2LastName" onclick="setOrder(this)" scope="col">Expert 2</th>
                             <th scope="col">Souhait Experts</th>
