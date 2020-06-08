@@ -6,6 +6,7 @@ $assigned = FILTER_INPUT(INPUT_GET, 'assigned', FILTER_SANITIZE_STRING);
 require_once 'model/crudWishes.php';
 require_once 'model/crudTPIS.php';
 
+//Update the wish when the administrator click on the button. Change the column assigned
 if (is_numeric($idExpert) && is_numeric($tpiChoosen) && is_numeric($assigned)) {
     updWish($idExpert, $tpiChoosen, $assigned);
     if ($assigned == '1') {

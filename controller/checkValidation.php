@@ -1,4 +1,5 @@
 <?php
+//code by the example of html2pdf
 require __DIR__.'/../vendor/autoload.php';
 
 use Spipu\Html2Pdf\Html2Pdf;
@@ -12,6 +13,7 @@ $assignedExpert = FILTER_INPUT(INPUT_GET, 'expert', FILTER_SANITIZE_STRING);
 $error = '';
 $commentRequired = false;
 
+//Given by the manager
 $validation_criterions = array(
     "Le nombre d'heures estimés est en accord avec le règlement. (70-90 heures)",
     "L'énoncé est entièrement rédigé par le supérieur du candidat.",
@@ -81,6 +83,7 @@ if ($btn == 'valid') {
 
     $newCrit = implode(';', $tabNewCrit);
 
+    //Check if there's modification of the answer
     if (!empty(getValidation($tpiChoosen))) {
         if ($newCrit != $tabValidation['criterions']) {
             updExpertSign($tpiChoosen, '', 'expert2Signature');
@@ -88,6 +91,7 @@ if ($btn == 'valid') {
         }
     }
 
+    //Check if there's a answer at "non"
     if (in_array('non', $tabNewCrit)) {
         $commentRequired = true;
         if (!empty($newComment)) {
@@ -123,9 +127,6 @@ if ($btn == 'valid') {
 
     if (!empty(getValidation($tpiChoosen))) {
         $tabValidation = getValidation($tpiChoosen)[0];
-    }
-
-    if (!empty(getValidation($tpiChoosen))) {
         if ($tabValidation['criterions'] != $newCrit) {
             updExpertSign($tpiChoosen, '', 'expert1Signature');
             updExpertSign($tpiChoosen, '', 'expert2Signature');
@@ -191,6 +192,7 @@ if ($btn == 'valid') {
             $format = 'Validation_TPI_' . $year . '_' . $tpiChoosen . '_' . $candLastName . '_' . $candFirstName . '.pdf';
             updPdfPath($tpiChoosen, $format);
 
+            //code by the example of html2pdf
             try {
                 ob_start();
 
