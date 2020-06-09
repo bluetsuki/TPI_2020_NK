@@ -35,6 +35,7 @@ function rmWish($idExpert, $id){
 /**
 * get all wishes of the TPI by it ID that hasn't been assigned
 * @param int id of the TPI
+* @return array an array assoc with all the information
 */
 function getWishesByTpiIdAssignedNull($id){
     $wishes = getConnexion();
@@ -51,6 +52,7 @@ function getWishesByTpiIdAssignedNull($id){
 /**
 * get all wishes of the TPI by it ID that has been assigned
 * @param int id of the TPI
+* @return array an array assoc with all the information
 */
 function getWishesByTpiIdAssigned($id){
     $wishes = getConnexion();
@@ -67,6 +69,7 @@ function getWishesByTpiIdAssigned($id){
 /**
 * get all wishes of the TPI by it ID
 * @param int id of the TPI
+* @return array an array with tpiID => assigned
 */
 function getWishesByTpiId($id){
     $wishes = getConnexion();
@@ -79,6 +82,7 @@ function getWishesByTpiId($id){
 /**
 * get the wish of the user by ids
 * @param int id of the TPI
+* @return array an array assoc with all the information
 */
 function getWishUser($idExpert, $tpiID){
     $wishes = getConnexion();

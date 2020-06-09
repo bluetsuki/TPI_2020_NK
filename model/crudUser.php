@@ -41,6 +41,7 @@ function login($email, $pwd){
 /**
 * get the role of the user by it ID
 * @param int $id of the user
+* @return array an array assoc with all the information
 */
 function getRole($id){
     $role = getConnexion();
@@ -53,6 +54,7 @@ function getRole($id){
 /**
 * get all user rights by the roleName
 * @param string $roleName
+* @return array an array assoc with all the information
 */
 function getUserRights($roleName){
     $role = getConnexion();

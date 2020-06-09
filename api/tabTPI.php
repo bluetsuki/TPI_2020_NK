@@ -1,4 +1,10 @@
 <?php
+/**
+ * @author Benzonana Alexandre
+ * Modify Nguyen Kelly
+ * @version 1.0
+ */
+
 require_once '../model/connectDB.php';
 require_once '../model/crudWishes.php';
 require_once '../model/crudParams.php';

@@ -47,6 +47,7 @@ function updStatus($tpiId, $status) {
 
 /**
 * get all TPIs
+* @return array an array assoc with all the informations
 */
 function getTPIs(){
     $tpi = getConnexion();
@@ -59,6 +60,7 @@ function getTPIs(){
 /**
 * get all TPIs by id
 * @param int $id of the TPI
+* @return array an array assoc with all the informations
 */
 function getTPIsById($id){
     $tpi = getConnexion();
@@ -71,6 +73,7 @@ function getTPIsById($id){
 
 /**
 * get all TPIs that has experts assigned
+* @return array an array assoc with all the informations
 */
 function getTPIsWExpert(){
     $tpi = getConnexion();
@@ -83,6 +86,7 @@ function getTPIsWExpert(){
 /**
 * get all TPIs of the manager
 * @param int $idUser of the manager
+* @return array an array assoc with all the informations
 */
 function getTPIsOfManager($idUser){
     $tpi = getConnexion();
@@ -96,6 +100,7 @@ function getTPIsOfManager($idUser){
 /**
 * get all TPIs of the expert
 * @param int $idUser of expert
+* @return array an array assoc with all the informations
 */
 function getTPIsOfExpert($idUser){
     $tpi = getConnexion();
@@ -109,6 +114,7 @@ function getTPIsOfExpert($idUser){
 /**
 * get TPI information of the candidate by the tpiID
 * @param int $id of the TPI
+* @return array an array with all the informations
 */
 function getTPIInfoCandidate($id){
     $tpi = getConnexion();

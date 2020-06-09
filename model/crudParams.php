@@ -19,6 +19,7 @@ function updParam($name, $value) {
 
 /**
 * get all the params
+* @return array an array with the name => value
 */
 function getParams() {
     $upd = getConnexion();
@@ -30,6 +31,7 @@ function getParams() {
 /**
 * get the param by the name
 * @param string $name of the value
+* @return array an array assoc with the value
 */
 function getParamsByName($name) {
     $upd = getConnexion();

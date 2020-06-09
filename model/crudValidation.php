@@ -17,6 +17,7 @@ function addCrit($tpiID, $crit){
 /**
 * get TPI validation by it ID
 * @param int $id of the TPI
+* @return array an array assoc with all the information
 */
 function getValidation($id){
     $tpi = getConnexion();
@@ -30,6 +31,7 @@ function getValidation($id){
 /**
 * get TPI signature by it ID
 * @param int $id of the TPI
+* @return array an array with all the information
 */
 function getSignExpert($id){
     $tpi = getConnexion();
